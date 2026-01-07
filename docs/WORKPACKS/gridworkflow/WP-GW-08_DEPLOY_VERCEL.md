@@ -22,9 +22,13 @@
 
 ## 冻结约束（必须）
 
-- 长任务必须异步化
+> **全局冻结项**：统一遵守 [FROZEN_INVARIANTS.md](../FROZEN_INVARIANTS.md)
+
+**本工作包特定约束**：
+- 长任务必须异步化（返回 `task_id` 并轮询状态）
 - 媒体必须外置存储（COS）
 - 所有密钥仅通过环境变量注入
+- Serverless 函数超时设置需匹配异步策略
 
 ---
 
@@ -46,7 +50,12 @@
 
 ---
 
+## 验收证据
+
+- `docs/WORKPACKS/gridworkflow/EVIDENCE_WP-GW-08_DEPLOY_VERCEL.md`
+
+---
+
 ## 回滚策略
 
 - 若 Serverless 约束不满足：后端迁移到更适合长任务的平台，前端保持不变
-

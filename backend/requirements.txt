@@ -1,0 +1,9 @@
+fastapi==0.110.1
+httpx>=0.24.0
+uvicorn[standard]==0.29.0
+cos-python-sdk-v5==1.9.32
+python-multipart==0.0.9
+PyJWT==2.9.0
+gotrue
+postgrest
+pyjwt
