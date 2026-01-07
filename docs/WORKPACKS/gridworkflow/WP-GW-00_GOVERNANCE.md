@@ -24,11 +24,15 @@
 
 ## 冻结约束（必须）
 
+> **全局冻结项**：统一遵守 [FROZEN_INVARIANTS.md](../FROZEN_INVARIANTS.md)
+
 - 统一响应结构 `{ ok, data, error }`
 - Prompt 单一来源（后端）
 - 前端 API Client 单一入口（`apiClient.ts`）
 - UI 文案仅简体中文
 - Prompt 输出语种由显式规则控制（`output_language` / `{{Output_Language_Rule}}`）
+
+**本工作包特定约束**：无额外约束
 
 ---
 

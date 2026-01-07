@@ -24,6 +24,9 @@
 
 ## 冻结约束（必须）
 
+> **全局冻结项**：统一遵守 [FROZEN_INVARIANTS.md](../FROZEN_INVARIANTS.md)
+
+**本工作包特定约束**：
 - UI 文案仅简体中文
 - 前端 API 请求统一走 `apiClient.ts`（后续 WP 创建）
 - 后端所有响应统一 `{ ok, data, error }`
@@ -64,6 +67,16 @@
 - 后端 `/health` 返回 200
 - 前端首页可访问，且不依赖母体仓库路径
 - `.env.example` 不含任何真实密钥
+
+---
+
+## 交付记录（Codex 后端）
+
+- FastAPI 骨架与路由聚合：`backend/app/main.py`、`backend/app/api/`
+- 健康检查：`GET /health` 返回 200，示例 `{ "ok": true, "data": { "status": "ok", "env": "<env>", "timestamp": "..." }, "error": null }`
+- 响应统一封装：`backend/app/schemas/response.py`
+- 日志与 request_id：中间件记录耗时并输出脱敏异常，header 带 `X-Request-ID`
+- 配置与启动说明：`backend/.env.example`、`docs/README.md`（API Base `http://localhost:8000`）
 
 ---
 

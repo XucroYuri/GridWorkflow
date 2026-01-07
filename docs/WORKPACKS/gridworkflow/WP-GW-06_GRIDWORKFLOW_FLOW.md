@@ -25,10 +25,14 @@
 
 ## 冻结约束（必须）
 
+> **全局冻结项**：统一遵守 [FROZEN_INVARIANTS.md](../FROZEN_INVARIANTS.md)
+
+**本工作包特定约束**：
 - UI 文案仅简体中文
 - Prompt 模板与拼接逻辑仅在后端（前端只展示与编辑可见 Prompt）
 - Prompt 输出语种受 `output_language` 与 `{{Output_Language_Rule}}` 控制
 - Reroll 不触发 LLM，仅重绘图像
+- 四步状态机遵循 WP-GW-06A 冻结的契约
 
 ---
 

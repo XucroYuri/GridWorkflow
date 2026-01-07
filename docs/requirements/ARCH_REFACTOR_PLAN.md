@@ -261,6 +261,7 @@ async def sora2_query(task_id: str):
 *   **/concept**：`style`, `plot`, `anchors`, `aspect_ratio`, `image_size`
 *   **/storyboard/plan**：`style`, `plot`, `anchors`, `concept_prompt`(可选), `concept_image_url`(可选), `output_language`(可选，默认 `zh-CN`)
 *   **/storyboard/generate**：`storyboard_prompt`, `reference_image_base64`(可选), `aspect_ratio`, `image_size`
+    *   响应：`grid_image_url`（单张 3x3 拼图 URL，冻结决策见 WP-GW-06A）
 *   **/video/prompt**：`storyboard_prompt`, `original_plot`, `duration`(默认10), `fps`(默认60), `output_language`(可选，默认 `zh-CN`)
 *   **/video/generate**：`prompt`, `model`, `images`(可选), `aspect_ratio`, `hd`, `duration`, `provider`(默认 t8star)
 *   **/video/status**：`task_id`, `provider`

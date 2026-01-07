@@ -24,8 +24,11 @@
 
 ## 冻结约束（必须）
 
+> **全局冻结项**：统一遵守 [FROZEN_INVARIANTS.md](../FROZEN_INVARIANTS.md)
+
+**本工作包特定约束**：
 - 统一响应结构 `{ ok, data, error }`
-- 不在后端服务层拼接业务 Prompt
+- Prompt 模板仅在后端拼接，不在服务层拼接业务 Prompt
 - 不透传上游完整错误体，不记录密钥与完整 Prompt
 
 ---
@@ -59,7 +62,86 @@
 
 ---
 
+## 错误码映射与脱敏策略
+
+- 统一输出 `{ ok:false, error:{code,message} }`，不透传上游完整错误体，不记录密钥/完整 Prompt
+- 映射规则（实现与文档一致）：
+  - `400` -> `BAD_REQUEST`
+  - `401` -> `UNAUTHORIZED`
+  - `403` -> `FORBIDDEN`
+  - `404` -> `NOT_FOUND`
+  - `408/504` -> `TIMEOUT`
+  - `429` -> `RATE_LIMITED`
+  - `5xx/网络异常` -> `UPSTREAM_ERROR`
+- 输入门禁：
+  - `prompt` 不能为空（空白字符视为无效）
+  - `image` base64 最大 2MB（`MAX_IMAGE_BASE64_BYTES`）
+  - `response_format`（图像）仅允许 `url` / `b64_json`
+
+---
+
+## 验收证据（可复现）
+
+> 说明：需配置 `AI_GATEWAY_API_KEY` 或请求头 `x-user-gemini-key`。
+
+### 文本成功
+
+```bash
+curl -X POST http://localhost:8000/api/v1/ai/analyze \
+  -H "Content-Type: application/json" \
+  -d "{\"prompt\":\"用一句话概括 AI 网关的作用\"}"
+```
+
+期望响应（示例）：
+
+```json
+{ "ok": true, "data": "AI 网关用于统一代理模型调用与安全控制。", "error": null }
+```
+
+### 文本失败（空白 Prompt）
+
+```bash
+curl -X POST http://localhost:8000/api/v1/ai/analyze \
+  -H "Content-Type: application/json" \
+  -d "{\"prompt\":\" \"}"
+```
+
+期望响应（示例）：
+
+```json
+{ "ok": false, "data": null, "error": { "code": "BAD_REQUEST", "message": "prompt 不能为空" } }
+```
+
+### 图像成功（无参考图，自动兜底 1x1 PNG）
+
+```bash
+curl -X POST http://localhost:8000/api/v1/ai/generate-image \
+  -H "Content-Type: application/json" \
+  -d "{\"prompt\":\"一只戴墨镜的柴犬，插画风\"}"
+```
+
+期望响应（示例）：
+
+```json
+{ "ok": true, "data": [{ "url": "https://..." }], "error": null }
+```
+
+### 图像失败（response_format 非法）
+
+```bash
+curl -X POST http://localhost:8000/api/v1/ai/generate-image \
+  -H "Content-Type: application/json" \
+  -d "{\"prompt\":\"测试\", \"response_format\":\"raw\"}"
+```
+
+期望响应（示例）：
+
+```json
+{ "ok": false, "data": null, "error": { "code": "BAD_REQUEST", "message": "response_format 不支持" } }
+```
+
+---
+
 ## 回滚策略
 
 - 若上游兼容性问题严重：保留旧实现并以配置开关回退
-

@@ -23,9 +23,13 @@
 
 ## 冻结约束（必须）
 
+> **全局冻结项**：统一遵守 [FROZEN_INVARIANTS.md](../FROZEN_INVARIANTS.md)
+
+**本工作包特定约束**：
 - UI 文案仅简体中文
 - 所有 API 只走 `apiClient.ts`，禁止散落 `fetch`
-- 不直连外部 AI API
+- 不直连外部 AI API（`ai.t8star.cn` 等）
+- Light Theme（Google 风格）为默认视觉风格
 
 ---
 

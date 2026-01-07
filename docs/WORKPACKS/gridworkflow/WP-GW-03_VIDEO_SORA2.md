@@ -24,9 +24,13 @@
 
 ## 冻结约束（必须）
 
+> **全局冻结项**：统一遵守 [FROZEN_INVARIANTS.md](../FROZEN_INVARIANTS.md)
+
+**本工作包特定约束**：
 - 异步化：生成接口必须快速返回 `task_id`
 - 日志与错误脱敏：不记录完整 `task_id`、不透传上游原始错误体
 - provider 只能走注册表，不允许前端自定义 URL
+- 任务状态枚举遵循全局冻结（`queued` / `running` / `succeeded` / `failed`）
 
 ---
 

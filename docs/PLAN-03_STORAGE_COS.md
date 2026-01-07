@@ -17,11 +17,17 @@
 - `COS_SECRET_KEY`
 - `COS_BUCKET`
 - `COS_REGION`
+- `COS_SIGNED_URL`（可选，true 启用签名 URL）
+- `COS_SIGNED_URL_TTL_SECONDS`（可选，签名 URL 时效）
+- `COS_MEDIA_PREFIX`（可选，对象前缀，默认 media）
+- `COS_IMAGE_MAX_BYTES`（可选，图片大小上限）
+- `COS_VIDEO_MAX_BYTES`（可选，视频大小上限）
 
 ## 关键实现点
 - 上传后返回可直接访问 URL
 - 失败时回退为原始 URL (如仍可用)
 - 大文件分片上传预留接口
+- 签名 URL 具备短 TTL，避免长期敏感参数暴露
 
 ## Agent 风险点
 - 不要在前端直接上传密钥

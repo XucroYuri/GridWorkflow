@@ -23,9 +23,13 @@
 
 ## 冻结约束（必须）
 
+> **全局冻结项**：统一遵守 [FROZEN_INVARIANTS.md](../FROZEN_INVARIANTS.md)
+
+**本工作包特定约束**：
 - UI 文案仅简体中文
-- 不直连外部视频 API，所有调用走后端
+- 不直连外部视频 API，所有调用走后端（通过 `apiClient.ts`）
 - 任务列表不能以 localStorage 作为唯一来源
+- 任务状态渲染遵循全局冻结枚举（`queued` / `running` / `succeeded` / `failed`）
 
 ---
 

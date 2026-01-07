@@ -23,9 +23,13 @@
 
 ## 冻结约束（必须）
 
+> **全局冻结项**：统一遵守 [FROZEN_INVARIANTS.md](../FROZEN_INVARIANTS.md)
+
+**本工作包特定约束**：
 - Service Role Key 仅在后端使用，不暴露到前端
 - 核心接口必须校验 JWT
-- 数据表按 `user_id` 隔离
+- 数据表按 `user_id` 隔离（RLS 策略）
+- JWT 校验失败返回 `UNAUTHORIZED` 错误码
 
 ---
 
