@@ -123,7 +123,7 @@ docs/
 | 资源 | 链接 | 说明 |
 |------|------|------|
 | Gitee 仓库 | https://gitee.com/chengdu-flower-food/grid-workflow | **内部开发主仓库** |
-| GitHub 仓库 | https://github.com/XucroYuri/GridWorkflow | **快速部署临时仓库**（仅用于 Vercel 部署） |
+| GitHub 仓库 | https://github.com/huachi-design/GridWorkflow | **次级备份仓库**（用于 Vercel 部署） |
 | 问题追踪 | [Gitee Issues](https://gitee.com/chengdu-flower-food/grid-workflow/issues) | 在 Gitee 主仓库提交问题 |
 
 ---

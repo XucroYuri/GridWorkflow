@@ -151,7 +151,7 @@ SecretKey:  <你的SecretKey> (保密!)
 
 **仓库地址**:
 - Gitee (主): https://gitee.com/chengdu-flower-food/grid-workflow
-- GitHub (部署): https://github.com/XucroYuri/GridWorkflow
+- GitHub (部署): https://github.com/huachi-design/GridWorkflow
 
 ### 4.2 导入到 Vercel
 
@@ -482,7 +482,7 @@ ALLOWED_ORIGINS=https://yourdomain.com,https://app.yourdomain.com
 
 1. 查看 Issues：
    - [Gitee Issues](https://gitee.com/chengdu-flower-food/grid-workflow/issues) (国内优先)
-   - [GitHub Issues](https://github.com/XucroYuri/GridWorkflow/issues)
+   - [GitHub Issues](https://github.com/huachi-design/GridWorkflow/issues)
 2. 提交新 Issue，附上：
    - 错误截图
    - Vercel 构建/函数日志
