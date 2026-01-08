@@ -72,7 +72,7 @@ archive/
 
 | 文档 | 原因 | 替代文档 |
 |------|------|----------|
-| AGENT-00_WORKSTREAMS.md | 已整合到新方案 | active/multi-agent/EXECUTION_PLAN.md |
+| AGENT-00_WORKSTREAMS.md | 已整合到新方案 | active/multi-agent/MULTI_AGENT_EXECUTION_PLAN.md |
 | PDCA-00_PROJECT_GOVERNANCE.md | 已整合到新方案 | active/multi-agent/FROZEN_INVARIANTS.md |
 | AUDIT_REPORT.md | 母体仓库遗留 | report/CODE_AUDIT_REPORT_*.md |
 | FULL_PROJECT_CODE_AUDIT_REPORT.md | 母体仓库审计 | report/CODE_AUDIT_REPORT_*.md |

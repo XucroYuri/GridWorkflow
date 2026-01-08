@@ -1,5 +1,9 @@
 # WORKPACKS (多 Agent 可执行工作包索引)
 
+> ⚠️ **归档说明**: 本文档及本目录下的工作包为 v1.0 开发时使用，现已归档。  
+> 📍 **新版执行方案**: [docs/active/multi-agent/MULTI_AGENT_EXECUTION_PLAN.md](../../active/multi-agent/MULTI_AGENT_EXECUTION_PLAN.md)  
+> 📍 **全局冻结项**: [docs/active/multi-agent/FROZEN_INVARIANTS.md](../../active/multi-agent/FROZEN_INVARIANTS.md)
+
 **目标**：将 `docs/` 下的文档体系组织为可分配、可并行、可验收的工作包（Work Packages）。每个工作包提供独立上下文启动信息，便于不同 Agent 在不同上下文窗口中独立执行并交付。
 
 ---
@@ -8,14 +12,14 @@
 
 > ⚠️ **重要**：所有工作包必须遵守全局冻结项，违反者直接退回。
 
-- **[FROZEN_INVARIANTS.md](FROZEN_INVARIANTS.md)** — 统一响应结构、Prompt 单一来源、API Client 单入口、UI 中文、输出语种可控、安全门禁
+- **[FROZEN_INVARIANTS.md](../../active/multi-agent/FROZEN_INVARIANTS.md)** — 统一响应结构、Prompt 单一来源、API Client 单入口、UI 中文、输出语种可控、安全门禁
 
 ---
 
 ## 1. 使用方式（最小流程）
 
 1. 选择一个工作包（WP-xx）。
-2. **阅读 [FROZEN_INVARIANTS.md](FROZEN_INVARIANTS.md) 确认全局约束**。
+2. **阅读 [FROZEN_INVARIANTS.md](../../active/multi-agent/FROZEN_INVARIANTS.md) 确认全局约束**。
 3. 将该工作包中的"Agent 启动上下文（复制即用）"整体提供给对应团队的 Agent（Codex 后端 / Gemini 前端 / Joint）。
 4. Agent 只在工作包声明的范围内修改文件，并按"验收 Checklist"产出证据。
 5. 若需跨包变更，先更新工作包的"依赖/输入输出/验收"，再实施改动。
@@ -53,8 +57,8 @@
 - [WP-GW-11_DETACH_REPO](gridworkflow/WP-GW-11_DETACH_REPO.md) — 仓库剥离（暂停）
 
 ### 2.8 路线图与协作
-- [ROADMAP_MULTI_AGENT](ROADMAP_MULTI_AGENT.md) — 多 Agent 分步开发路线图
-- [WORKFLOW_MULTI_AGENT](WORKFLOW_MULTI_AGENT.md) — 多 Agent 工作流推进方案
+- [ROADMAP_MULTI_AGENT](../../active/multi-agent/ROADMAP_MULTI_AGENT.md) — 多 Agent 分步开发路线图
+- [WORKFLOW_MULTI_AGENT](../../active/multi-agent/WORKFLOW_MULTI_AGENT.md) — 多 Agent 工作流推进方案
 
 ---
 
@@ -63,5 +67,5 @@
 - [MAP_SPECS_TO_WORKPACKS](MAP_SPECS_TO_WORKPACKS.md)
 - `../AUDIT_REPORT.md`
 - `../FULL_PROJECT_CODE_AUDIT_REPORT.md`
-- `../specs/`（架构参考文档）
+- `../../specs/`（架构参考文档）
 

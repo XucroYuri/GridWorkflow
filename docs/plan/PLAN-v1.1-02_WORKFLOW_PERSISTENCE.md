@@ -561,7 +561,7 @@ def get_supabase_client() -> Client:
 - [Supabase 文档](https://supabase.com/docs)
 - [RLS 最佳实践](https://supabase.com/docs/guides/auth/row-level-security)
 - [React Query 状态同步](https://tanstack.com/query/latest)
-- 内部文档: `docs/WORKPACKS/gridworkflow/WP-GW-09_AUTH_SUPABASE.md`
+- 内部文档: `docs/archive/legacy-workpacks/gridworkflow/WP-GW-09_AUTH_SUPABASE.md`
 
 ---
 

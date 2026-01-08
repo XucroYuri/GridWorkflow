@@ -31,7 +31,7 @@ docs/
 │   ├── 📁 phase-2/              # Phase 2: 生产就绪
 │   │   └── SECURITY_IMPROVEMENT_PLAN.md
 │   └── 📁 multi-agent/          # 多Agent协作方案
-│       ├── EXECUTION_PLAN.md    # 执行方案 (主文档)
+│       ├── MULTI_AGENT_EXECUTION_PLAN.md  # 执行方案 (主文档)
 │       ├── FROZEN_INVARIANTS.md # 全局冻结项
 │       ├── ROADMAP_MULTI_AGENT.md
 │       └── WORKFLOW_MULTI_AGENT.md

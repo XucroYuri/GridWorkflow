@@ -36,9 +36,9 @@ cd frontend && npm install && npm run dev
 
 | 文档 | 说明 |
 |------|------|
-| [📖 项目指南](docs/README.md) | 完整的功能介绍与本地开发指南 |
-| [🚀 部署指南](docs/DEPLOY_GUIDE.md) | 手把手教你部署到生产环境 |
-| [📋 工作包索引](docs/WORKPACKS/INDEX.md) | 多 Agent 开发文档 |
+| [📖 文档中心](docs/README.md) | 文档导航与项目概览 |
+| [🚀 部署指南](docs/guides/DEPLOY_GUIDE.md) | 手把手教你部署到生产环境 |
+| [📋 多Agent执行方案](docs/active/multi-agent/MULTI_AGENT_EXECUTION_PLAN.md) | 多 Agent 协作开发方案 |
 
 ## 🏗 技术栈
 
@@ -94,7 +94,7 @@ COS_REGION=ap-shanghai
 ALLOWED_ORIGINS=https://yourdomain.com
 ```
 
-完整变量列表见 [部署指南](docs/DEPLOY_GUIDE.md#51-环境变量完整清单)
+完整变量列表见 [部署指南](docs/guides/DEPLOY_GUIDE.md#51-环境变量完整清单)
 
 ## 📄 许可
 

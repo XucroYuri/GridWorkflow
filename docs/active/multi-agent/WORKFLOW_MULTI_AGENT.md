@@ -78,98 +78,98 @@
 【S1 Claude (Joint) / WP-GW-00_GOVERNANCE】
 角色：Claude（Joint，治理与门禁）
 任务：执行 WP-GW-00_GOVERNANCE，冻结不变量；只改 docs/**；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-00_GOVERNANCE.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-00_GOVERNANCE.md
 ```
 
 ```text
 【S2 Claude (Joint) / WP-GW-90_RISK_REGISTER】
 角色：Claude（Joint，风险兜底）
 任务：执行 WP-GW-90_RISK_REGISTER，完善风险条目与兜底策略；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-90_RISK_REGISTER.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-90_RISK_REGISTER.md
 ```
 
 ```text
 【S3 Codex / WP-GW-01_BOOTSTRAP】
 角色：Codex（后端）
 任务：完成后端骨架与 /health；统一 `{ok,data,error}`；只改 backend/** 与 docs/**；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-01_BOOTSTRAP.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-01_BOOTSTRAP.md
 ```
 
 ```text
 【S4 Gemini / WP-GW-01_BOOTSTRAP】
 角色：Gemini Agent（前端）
 任务：完成前端首页与启动基线；Light Theme；只改 frontend/** 与 docs/**；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-01_BOOTSTRAP.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-01_BOOTSTRAP.md
 ```
 
 ```text
 【P1 Codex / WP-GW-02_BACKEND_PROXY】
 角色：Codex
 任务：AI 网关代理（文本/图像）；脱敏与统一错误结构；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-02_BACKEND_PROXY.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-02_BACKEND_PROXY.md
 ```
 
 ```text
 【P2 Codex / WP-GW-03_VIDEO_SORA2】
 角色：Codex
 任务：视频生成与状态查询，返回 task_id，标准错误结构；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-03_VIDEO_SORA2.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-03_VIDEO_SORA2.md
 ```
 
 ```text
 【P3 Codex / WP-GW-04_STORAGE_COS】
 角色：Codex
 任务：媒体统一出站到 COS；签名/脱敏；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-04_STORAGE_COS.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-04_STORAGE_COS.md
 ```
 
 ```text
 【P4 Gemini / WP-GW-05_FRONTEND_SHELL】
 角色：Gemini Agent
 任务：前端基座 + apiClient 单入口 + Light Theme；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-05_FRONTEND_SHELL.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-05_FRONTEND_SHELL.md
 ```
 
 ```text
 【P5 Gemini / WP-GW-07_VIDEO_STUDIO_UI】
 角色：Gemini Agent
 任务：/video 工作台 UI，任务列表/预览，后端接口对接（不直连上游）；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-07_VIDEO_STUDIO_UI.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-07_VIDEO_STUDIO_UI.md
 ```
 
 ```text
 【S5 Claude / WP-GW-06A_FLOW_CONTRACT】
 角色：Claude（契约负责人）
 任务：冻结 Step1~Step4 契约（字段/默认值/错误码/状态枚举；九宫格产物形态二选一并冻结）；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-06A_FLOW_CONTRACT.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-06A_FLOW_CONTRACT.md
 ```
 
 ```text
 【S6 Joint (Codex+Gemini，Claude 复核) / WP-GW-06_GRIDWORKFLOW_FLOW】
 角色：Joint 协同（前端状态机 + 后端实现）
 任务：按已冻结契约完成四步闭环；前端状态机、后端替换 mock；Reroll 仅重绘；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-06_GRIDWORKFLOW_FLOW.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-06_GRIDWORKFLOW_FLOW.md
 ```
 
 ```text
 【S7 Joint (Codex+Gemini，Claude 安全审阅) / WP-GW-09_AUTH_SUPABASE】
 角色：联合
 任务：Supabase 鉴权与基础数据隔离（JWT/RLS）；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-09_AUTH_SUPABASE.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-09_AUTH_SUPABASE.md
 ```
 
 ```text
 【S8 Codex（Claude 复核） / WP-GW-10_IP_ALLOWLIST】
 角色：Codex（Claude 复核）
 任务：IP 白名单弱鉴权（只读接口），生成接口仍需 JWT；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-10_IP_ALLOWLIST.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-10_IP_ALLOWLIST.md
 ```
 
 ```text
 【S9 Joint (Codex+Gemini，Claude 复核) / WP-GW-08_DEPLOY_VERCEL】
 角色：Joint（Codex+Gemini，Claude 复核）
 任务：Vercel 部署收敛，异步任务不超时，媒体外置；按验收清单出证据。
-文档：docs/WORKPACKS/gridworkflow/WP-GW-08_DEPLOY_VERCEL.md
+文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-08_DEPLOY_VERCEL.md
 ```
 
 ## 7. GitHub 提交流程（默认习惯）
