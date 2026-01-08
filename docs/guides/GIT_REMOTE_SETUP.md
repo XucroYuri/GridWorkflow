@@ -13,7 +13,8 @@
 | **GitHub** | https://github.com/huachi-design/GridWorkflow | **次级备份** | 公开备份仓库，Vercel 等平台快速部署 |
 | **GitHub** | https://github.com/XucroYuri/GridWorkflow | **安全隐形备份** | 隐形备份仓库，不在文档中体现，但每次提交自动同步 |
 
-> ✅ **状态**: `huachi-design/GridWorkflow` 仓库已创建并配置完成
+> ✅ **状态**: `huachi-design/GridWorkflow` 仓库已创建，Git 远程配置已完成  
+> ⚠️ **注意**: 首次推送可能需要 GitHub 认证（Personal Access Token 或 SSH 密钥）
 
 ---
 

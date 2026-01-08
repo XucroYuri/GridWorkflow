@@ -74,6 +74,11 @@ git push all main
 git push github-huachi main
 ```
 
+> ⚠️ **注意**: 如果推送时提示 "Repository not found" 或需要认证：
+> - 确保仓库已创建且你有推送权限
+> - 使用 HTTPS 时，GitHub 可能需要 Personal Access Token（而不是密码）
+> - 使用 SSH 时，确保 SSH 密钥已添加到 GitHub 账号
+
 ### 步骤 5: 验证配置
 
 ```bash
