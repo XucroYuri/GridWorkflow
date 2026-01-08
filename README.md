@@ -14,12 +14,11 @@
 ## 🚀 快速开始
 
 ```bash
-# 克隆仓库 (推荐使用 Gitee 国内源)
+# 克隆仓库 (使用 Gitee 内部开发主仓库)
 git clone https://gitee.com/chengdu-flower-food/grid-workflow.git
 cd grid-workflow
 
-# 或使用 GitHub
-# git clone https://github.com/XucroYuri/GridWorkflow.git
+# 注意：GitHub 仓库仅用于快速部署，日常开发请使用 Gitee
 
 # 启动后端
 cd backend && python -m venv .venv && .\.venv\Scripts\activate

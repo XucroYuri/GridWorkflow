@@ -1,16 +1,16 @@
 # Git 双云端仓库配置说明
 
 > **配置日期**: 2026-01-08  
-> **双源备份**: Gitee (主) + GitHub (备)
+> **仓库性质**: Gitee (内部开发主仓库) + GitHub (快速部署临时仓库)
 
 ---
 
-## 📋 仓库地址
+## 📋 仓库地址与性质
 
-| 平台 | 仓库地址 | 用途 |
-|------|----------|------|
-| **Gitee** | https://gitee.com/chengdu-flower-food/grid-workflow | 国内主源 (拉取优先) |
-| **GitHub** | https://github.com/XucroYuri/GridWorkflow | 国际备份 |
+| 平台 | 仓库地址 | 性质 | 用途 |
+|------|----------|------|------|
+| **Gitee** | https://gitee.com/chengdu-flower-food/grid-workflow | **内部开发主仓库** | 日常开发、代码管理、版本控制 |
+| **GitHub** | https://github.com/XucroYuri/GridWorkflow | **快速部署临时仓库** | Vercel 等平台快速部署，仅用于部署流程 |
 
 ---
 
@@ -124,17 +124,17 @@ git remote set-url github git@github.com:XucroYuri/GridWorkflow.git
 
 ## ❓ 常见问题
 
-### Q: 为什么优先使用 Gitee？
+### Q: 为什么 Gitee 是主仓库？
 
-A: Gitee 服务器在国内，访问速度更快，适合国内开发者日常使用。
+A: Gitee 是**内部开发主仓库**，所有日常开发、代码审查、版本管理都在 Gitee 进行。GitHub 仅作为**快速部署的临时仓库**，用于 Vercel 等平台的自动化部署流程。
 
 ### Q: 两个仓库会冲突吗？
 
-A: 不会。使用 `git push all main` 可以确保两个仓库同步。建议每次推送都使用 `all` 或分别推送到两个仓库。
+A: 不会。使用 `git push all main` 可以确保两个仓库同步。**建议日常开发只推送到 Gitee，仅在需要部署时同步到 GitHub**。
 
 ### Q: Vercel 部署使用哪个仓库？
 
-A: Vercel 部署继续使用 GitHub 仓库，因为 Vercel 对 GitHub 支持更好。
+A: Vercel 部署使用 GitHub 仓库（快速部署临时仓库），因为 Vercel 对 GitHub 集成支持更好。部署前需要将代码从 Gitee 同步到 GitHub。
 
 ---
 

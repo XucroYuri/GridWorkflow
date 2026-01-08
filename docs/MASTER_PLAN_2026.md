@@ -314,12 +314,11 @@ VITE_SUPABASE_ANON_KEY=eyJhbGci...
 ### 5.4 本地启动步骤
 
 ```bash
-# 1. 克隆仓库 (推荐使用 Gitee 国内源)
+# 1. 克隆仓库 (使用 Gitee 内部开发主仓库)
 git clone https://gitee.com/chengdu-flower-food/grid-workflow.git
 cd grid-workflow
 
-# 或使用 GitHub
-# git clone https://github.com/XucroYuri/GridWorkflow.git
+# 注意：GitHub 仓库仅用于快速部署，日常开发请使用 Gitee
 
 # 2. 启动后端 (终端 1)
 cd backend

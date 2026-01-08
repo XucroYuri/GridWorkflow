@@ -141,22 +141,27 @@ SecretKey:  <你的SecretKey> (保密!)
 
 ## 4. 部署到 Vercel
 
-### 4.1 关联仓库
+### 4.1 仓库说明
 
 > ⚠️ 本项目为企业内部项目，请确保有仓库访问权限。
 
-**Gitee 仓库 (主)**
-- 仓库地址：https://gitee.com/chengdu-flower-food/grid-workflow
+**仓库性质**:
+- **Gitee**: 内部开发主仓库，所有日常开发在此进行
+- **GitHub**: 快速部署临时仓库，仅用于 Vercel 等平台部署
 
-**GitHub 仓库 (备份)**
-- 仓库地址：https://github.com/XucroYuri/GridWorkflow
+**仓库地址**:
+- Gitee (主): https://gitee.com/chengdu-flower-food/grid-workflow
+- GitHub (部署): https://github.com/XucroYuri/GridWorkflow
 
 ### 4.2 导入到 Vercel
+
+> ⚠️ **重要**: Vercel 部署需要使用 GitHub 仓库（快速部署临时仓库）
 
 1. 访问 [Vercel Dashboard](https://vercel.com/dashboard)
 2. 点击 **Add New** → **Project**
 3. 选择 **Import Git Repository**
-4. 关联企业 Git 账号，选择 `GridWorkflow` 仓库，点击 **Import**
+4. 关联 GitHub 账号，选择 `GridWorkflow` 仓库，点击 **Import**
+5. **部署前确保代码已从 Gitee 同步到 GitHub**（使用 `git push github main` 或 `git push all main`）
 
 ### 4.3 配置构建设置
 

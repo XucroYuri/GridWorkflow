@@ -728,15 +728,21 @@ frontend/src/
 
 ### 6.4 推送命令
 
+> **仓库性质说明**:
+> - **Gitee**: 内部开发主仓库，所有日常开发在此进行
+> - **GitHub**: 快速部署临时仓库，仅用于 Vercel 等平台部署
+
 ```bash
-# 单次提交推送
+# 日常开发：推送到 Gitee 主仓库
 git add -A
 git commit -m "#B1 Stage-1.1 implement workflow tables"
-git push all main
-
-# 或分别推送
 git push gitee main
+
+# 需要部署时：同步到 GitHub（快速部署临时仓库）
 git push github main
+
+# 或一次性推送到两个仓库（仅在需要部署时使用）
+git push all main
 ```
 
 ---

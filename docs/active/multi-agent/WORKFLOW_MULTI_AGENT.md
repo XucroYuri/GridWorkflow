@@ -172,7 +172,12 @@
 文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-08_DEPLOY_VERCEL.md
 ```
 
-## 7. GitHub 提交流程（默认习惯）
+## 7. Git 提交流程（默认习惯）
+
+> **仓库性质**:
+> - **Gitee**: 内部开发主仓库，所有日常开发在此进行
+> - **GitHub**: 快速部署临时仓库，仅用于 Vercel 等平台部署
+
 - 每个 Agent 在对应窗口任务通过验收后，默认执行一次提交与推送，保持可审计历史。
 - 推荐分支/提交规范：
   - 分支：`feature/<WP>-<window>`（如 `feature/WP-GW-02-P1`），合并到 `main` 时走 PR。
@@ -182,5 +187,6 @@
   - 提交前附验收要点：成功/失败用例、风险条目对应的证据。
 - 仓库初始化与推送（如尚未创建远程）：
   - 本地：`git init`（如未初始化），`git add . && git commit -m "init docs/workflow"`。
-  - 远程：创建 GitHub 仓库后 `git remote add origin <repo-url>`，`git push -u origin main`。
-  - 完成后为后续窗口保持“验收→提交→推送”的固定节奏。
+  - 远程：**优先使用 Gitee 主仓库** `git remote add origin <gitee-repo-url>`，`git push -u origin main`。
+  - 需要部署时再同步到 GitHub：`git remote add github <github-repo-url>`，`git push github main`。
+  - 完成后为后续窗口保持"验收→提交→推送到 Gitee"的固定节奏。

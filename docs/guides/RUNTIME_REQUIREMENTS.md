@@ -206,12 +206,11 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ### 4.1 克隆仓库
 
 ```bash
-# 推荐使用 Gitee 国内源
+# 使用 Gitee 内部开发主仓库
 git clone https://gitee.com/chengdu-flower-food/grid-workflow.git
 cd grid-workflow
 
-# 或使用 GitHub
-# git clone https://github.com/XucroYuri/GridWorkflow.git
+# 注意：GitHub 仓库仅用于快速部署，日常开发请使用 Gitee
 ```
 
 ### 4.2 启动后端
