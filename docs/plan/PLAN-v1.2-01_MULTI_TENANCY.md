@@ -253,7 +253,7 @@ from app.services.quota_service import QuotaService
 class QuotaMiddleware(BaseHTTPMiddleware):
     """配额检查中间件"""
     
-    # 需要配额检查的端点
+    # 需要配额检查的端点及其使用类型
     QUOTA_ENDPOINTS = {
         '/api/v1/concept': 'api_calls',
         '/api/v1/storyboard/plan': 'api_calls',
@@ -264,25 +264,49 @@ class QuotaMiddleware(BaseHTTPMiddleware):
     
     async def dispatch(self, request: Request, call_next):
         path = request.url.path
+        usage_type = self.QUOTA_ENDPOINTS.get(path)
         
-        if path in self.QUOTA_ENDPOINTS:
-            org_id = getattr(request.state, 'organization_id', None)
-            if org_id:
-                quota_service = QuotaService(org_id)
-                status = await quota_service.check_api_quota()
-                
-                if not status.allowed:
-                    raise HTTPException(
-                        status_code=429,
-                        detail={
-                            'code': 'QUOTA_EXCEEDED',
-                            'message': status.message,
-                            'current': status.current,
-                            'limit': status.limit,
-                        }
-                    )
+        # 获取组织和用户信息
+        org_id = getattr(request.state, 'organization_id', None)
+        user_id = getattr(request.state, 'user_id', None)
+        quota_service = None
         
+        # 预检查配额（仅对需要配额检查的端点）
+        if usage_type and org_id:
+            quota_service = QuotaService(org_id)
+            status = await quota_service.check_api_quota()
+            
+            if not status.allowed:
+                raise HTTPException(
+                    status_code=429,
+                    detail={
+                        'code': 'QUOTA_EXCEEDED',
+                        'message': status.message,
+                        'current': status.current,
+                        'limit': status.limit,
+                    }
+                )
+        
+        # 执行实际请求
         response = await call_next(request)
+        
+        # 请求成功后增加使用计数（仅对 2xx 响应）
+        if (
+            usage_type 
+            and quota_service 
+            and user_id 
+            and 200 <= response.status_code < 300
+        ):
+            try:
+                await quota_service.increment_usage(user_id, usage_type)
+            except Exception:
+                # 计数失败不应阻塞响应，但应记录日志
+                import logging
+                logging.getLogger("quota").warning(
+                    "Failed to increment usage: org=%s user=%s type=%s",
+                    org_id, user_id, usage_type
+                )
+        
         return response
 ```
 
