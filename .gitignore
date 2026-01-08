@@ -2,6 +2,11 @@
 .env
 .env.*
 
+# Local development secrets (DO NOT COMMIT)
+local/
+temp/
+dev-secrets/
+
 # Node
 node_modules/
 *.log
