@@ -229,6 +229,10 @@ async def create_key(
         'key_preview': preview,
     }).execute()
     
+    # 验证插入结果
+    if not result.data or len(result.data) == 0:
+        raise HTTPException(500, detail="创建 API Key 失败")
+    
     return success_response({
         'id': result.data[0]['id'],
         'provider': payload.provider,

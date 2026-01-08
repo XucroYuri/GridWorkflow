@@ -278,7 +278,9 @@ export function useWorkflowPersistence() {
         .select()
         .single();
       
-      if (error) throw error;
+      if (error !== null) throw error;
+      if (data === null) throw new Error('更新会话失败：返回数据为空');
+      
       setSession(data);
       
       // 同步到 localStorage 作为缓存
@@ -302,7 +304,8 @@ export function useWorkflowPersistence() {
         .select()
         .single();
       
-      if (error) throw error;
+      if (error !== null) throw error;
+      if (data === null) throw new Error('重置会话失败：返回数据为空');
       
       localStorage.setItem(STORAGE_KEY, data.id);
       setSession(data);

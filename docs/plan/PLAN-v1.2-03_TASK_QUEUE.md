@@ -197,13 +197,41 @@ def verify_qstash_signature(
     signature: str,
     signing_key: str
 ) -> bool:
-    """验证 QStash 签名"""
-    expected = hmac.new(
-        signing_key.encode(),
-        request_body,
-        hashlib.sha256
-    ).hexdigest()
-    return hmac.compare_digest(expected, signature)
+    """
+    验证 QStash 签名
+    
+    注意：QStash 使用 JWT 格式的签名，包含在 Upstash-Signature header 中。
+    推荐使用官方 SDK 的 Receiver 类进行验证，或按以下步骤手动验证：
+    1. 签名格式为 JWT (header.payload.signature)
+    2. 使用 QSTASH_CURRENT_SIGNING_KEY 和 QSTASH_NEXT_SIGNING_KEY 验证
+    
+    参考: https://upstash.com/docs/qstash/features/security#verifying-signatures
+    """
+    import jwt
+    
+    try:
+        # 使用 PyJWT 验证 QStash 签名
+        # QStash 签名使用 HS256 算法
+        decoded = jwt.decode(
+            signature,
+            signing_key,
+            algorithms=["HS256"],
+            options={"verify_aud": False}
+        )
+        
+        # 验证 body hash (可选，增强安全性)
+        import hashlib
+        import base64
+        body_hash = base64.urlsafe_b64encode(
+            hashlib.sha256(request_body).digest()
+        ).decode().rstrip('=')
+        
+        if decoded.get("body") != body_hash:
+            return False
+        
+        return True
+    except jwt.exceptions.InvalidTokenError:
+        return False
 
 
 @router.post("/video-worker")
@@ -278,10 +306,25 @@ async def poll_until_complete(
     provider,
     task_id: str,
     user_api_key: str | None,
-    max_attempts: int = 60,
+    max_attempts: int = 20,  # 调整为 20 次 (约 60 秒)
     interval: int = 3,
 ) -> dict:
-    """轮询直到任务完成"""
+    """
+    轮询直到任务完成
+    
+    ⚠️ 重要：Vercel Serverless 函数有执行时间限制：
+    - Hobby: 10 秒
+    - Pro: 60 秒  
+    - Enterprise: 最长 900 秒
+    
+    建议配置：
+    - Pro 计划: max_attempts=20, interval=3 (约 60 秒)
+    - Enterprise: 可增加到 max_attempts=60
+    
+    对于超过限制的长任务，建议：
+    1. 使用 QStash 的 callback URL 机制让上游主动回调
+    2. 或拆分为多个短轮询 + 状态持久化
+    """
     import asyncio
     
     for _ in range(max_attempts):
@@ -303,9 +346,10 @@ async def poll_until_complete(
         # 继续等待
         await asyncio.sleep(interval)
     
+    # 超时但任务可能仍在进行中
     return {
         'status': 'failed',
-        'error_message': '任务超时',
+        'error_message': 'Worker 轮询超时，任务可能仍在处理中。请稍后检查任务状态。',
     }
 ```
 
@@ -569,9 +613,37 @@ async def retry_task(
 | 风险 | 概率 | 影响 | 缓解措施 |
 |------|------|------|----------|
 | QStash 服务中断 | 低 | 高 | 回退到轮询 |
-| Worker 超时 | 中 | 中 | 分段处理 |
+| Worker 超时 | 中 | 高 | 分段处理（见 5.1） |
 | 消息丢失 | 低 | 高 | 死信队列 |
 | 成本超支 | 低 | 低 | 监控用量 |
+
+### 5.1 Worker 超时问题详解
+
+**⚠️ Vercel Serverless 执行时间限制**:
+
+| 计划 | 最大执行时间 |
+|------|--------------|
+| Hobby | 10 秒 |
+| Pro | 60 秒 |
+| Enterprise | 900 秒 |
+
+**视频生成任务通常需要 1-5 分钟**，可能超过 Pro 计划的 60 秒限制。
+
+**解决方案**:
+
+1. **方案 A: 分段轮询 + QStash 重试**
+   - Worker 轮询 ~50 秒后返回 202 (继续处理)
+   - QStash 配置重试策略，继续发送消息
+   - 直到任务完成或达到最大重试次数
+
+2. **方案 B: 上游 Webhook 回调（推荐）**
+   - T8Star 等支持任务完成后主动回调
+   - Worker 只负责启动任务
+   - 由回调端点更新最终状态
+
+3. **方案 C: 升级到 Enterprise**
+   - 获得最长 15 分钟执行时间
+   - 成本较高，适合高并发企业场景
 
 ---
 

@@ -340,14 +340,22 @@ export const OrganizationSelector: React.FC = () => {
         organization:organizations(id, name, slug)
       `)
       .eq('user_id', user.id)
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('Failed to fetch organizations:', error);
+          return;
+        }
+        
         if (data) {
-          const mapped = data.map(d => ({
-            id: d.organization.id,
-            name: d.organization.name,
-            slug: d.organization.slug,
-            role: d.role,
-          }));
+          // 过滤掉 organization 为 null 的记录（关联失败的情况）
+          const mapped = data
+            .filter(d => d.organization !== null)
+            .map(d => ({
+              id: d.organization!.id,
+              name: d.organization!.name,
+              slug: d.organization!.slug,
+              role: d.role,
+            }));
           setOrgs(mapped);
           
           // 默认选择第一个或从 localStorage 恢复

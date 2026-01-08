@@ -96,13 +96,29 @@ export const ProgressiveImage: React.FC<ProgressiveImageProps> = ({
 }) => {
   const [imageSrc, setImageSrc] = useState(placeholder);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    // 重置状态
+    setIsLoaded(false);
+    setHasError(false);
+    
     const img = new Image();
     img.src = src;
     img.onload = () => {
       setImageSrc(src);
       setIsLoaded(true);
+    };
+    img.onerror = () => {
+      setHasError(true);
+      // 保持 placeholder 或显示错误占位图
+      console.warn(`Failed to load image: ${src}`);
+    };
+    
+    // 清理：取消未完成的加载
+    return () => {
+      img.onload = null;
+      img.onerror = null;
     };
   }, [src]);
 
@@ -111,7 +127,7 @@ export const ProgressiveImage: React.FC<ProgressiveImageProps> = ({
       src={imageSrc}
       alt={alt}
       className={`${className} transition-opacity duration-300 ${
-        isLoaded ? 'opacity-100' : 'opacity-50 blur-sm'
+        isLoaded ? 'opacity-100' : hasError ? 'opacity-30 grayscale' : 'opacity-50 blur-sm'
       }`}
     />
   );
