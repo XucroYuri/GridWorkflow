@@ -1,299 +1,152 @@
-# GridWorkflow 项目指南
+# GridWorkflow 文档中心
 
-> **AI 驱动的视频创作工作流平台** — 从创意构思到视频生成的一站式解决方案
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/XucroYuri/GridWorkflow)
+> **更新日期**: 2026-01-08  
+> **文档版本**: 2.0  
+> **项目阶段**: MVP 完成 → 生产加固
 
 ---
 
-## 📖 目录
+## 📖 文档导航
 
-- [快速开始](#-快速开始)
-- [架构概览](#-架构概览)
-- [本地开发](#-本地开发)
-- [生产部署](#-生产部署)
-- [API 文档](#-api-文档)
-- [后续迭代计划](#-后续迭代计划)
-- [常见问题](#-常见问题)
+### 🎯 核心文档
+
+| 文档 | 说明 | 优先阅读 |
+|------|------|----------|
+| [MASTER_PLAN_2026.md](./MASTER_PLAN_2026.md) | 项目主计划，包含路线图和阶段规划 | ⭐⭐⭐ |
+| [CODE_REVIEW_FINDINGS.md](./CODE_REVIEW_FINDINGS.md) | 代码审查发现的关键问题 | ⭐⭐ |
+
+---
+
+### 📂 目录结构
+
+```
+docs/
+├── 📄 README.md                 # 本文档 - 导航入口
+├── 📄 MASTER_PLAN_2026.md       # 主计划文档
+├── 📄 CODE_REVIEW_FINDINGS.md   # 代码审查发现
+│
+├── 📁 active/                   # 当前活跃的执行文档
+│   ├── 📁 phase-1/              # Phase 1: 稳定加固
+│   │   └── PHASE_1_IMPLEMENTATION.md
+│   ├── 📁 phase-2/              # Phase 2: 生产就绪
+│   │   └── SECURITY_IMPROVEMENT_PLAN.md
+│   └── 📁 multi-agent/          # 多Agent协作方案
+│       ├── EXECUTION_PLAN.md    # 执行方案 (主文档)
+│       ├── FROZEN_INVARIANTS.md # 全局冻结项
+│       ├── ROADMAP_MULTI_AGENT.md
+│       └── WORKFLOW_MULTI_AGENT.md
+│
+├── 📁 plan/                     # 迭代计划文档
+│   ├── INDEX.md                 # 计划索引
+│   ├── PLAN-v1.1-*.md           # v1.1 版本计划
+│   ├── PLAN-v1.2-*.md           # v1.2 版本计划
+│   ├── PLAN-v2.0-*.md           # v2.0 版本计划
+│   ├── PLAN-DEBT-*.md           # 技术债务计划
+│   └── REVIEW_AND_RECOMMENDATIONS.md
+│
+├── 📁 guides/                   # 指导手册
+│   ├── DEBUG_GUIDE.md           # 调试指南
+│   ├── DEPLOY_GUIDE.md          # 部署指南
+│   ├── GIT_REMOTE_SETUP.md      # Git 双云端配置
+│   └── RUNTIME_REQUIREMENTS.md  # 运行环境要求
+│
+├── 📁 archive/                  # 归档文档 (历史参考)
+│   ├── README.md                # 归档说明
+│   ├── 📁 v1.0-completed/       # 已完成的 v1.0 计划
+│   └── 📁 legacy-workpacks/     # 旧工作包执行证据
+│
+├── 📁 report/                   # 报告文档
+│   ├── CODE_AUDIT_REPORT_*.md   # 代码审计报告
+│   ├── ARCHITECTURE_DIAGRAM.md  # 架构图
+│   └── TECH_DEBT_TRACKER.md     # 技术债务追踪
+│
+├── 📁 specs/                    # 技术规范
+│   └── SPEC-*.md                # 各类技术规范
+│
+├── 📁 api/                      # API 文档
+│   └── ai.t8star.cn/            # AI Gateway API 参考
+│
+├── 📁 reference/                # 参考代码 (只读)
+│   └── mother/                  # 母体项目参考
+│
+└── 📁 requirements/             # 需求文档
+    └── PRD_*.md                 # 产品需求文档
+```
 
 ---
 
 ## 🚀 快速开始
 
-### 前置要求
+### 新开发者入门
 
-- **Node.js** 18+ (推荐 20 LTS)
-- **Python** 3.11+
-- **Git**
+1. **了解项目** → 阅读 [MASTER_PLAN_2026.md](./MASTER_PLAN_2026.md)
+2. **环境配置** → 参考 [guides/RUNTIME_REQUIREMENTS.md](./guides/RUNTIME_REQUIREMENTS.md)
+3. **本地调试** → 参考 [guides/DEBUG_GUIDE.md](./guides/DEBUG_GUIDE.md)
+4. **部署上线** → 参考 [guides/DEPLOY_GUIDE.md](./guides/DEPLOY_GUIDE.md)
 
-### 一键本地启动
+### 多Agent协作开发
 
-```bash
-# 1. 克隆仓库 (推荐使用 Gitee 国内源)
-git clone https://gitee.com/chengdu-flower-food/grid-workflow.git
-cd grid-workflow
+1. **了解规范** → 阅读 [active/multi-agent/FROZEN_INVARIANTS.md](./active/multi-agent/FROZEN_INVARIANTS.md)
+2. **执行方案** → 参考 [active/multi-agent/MULTI_AGENT_EXECUTION_PLAN.md](./active/multi-agent/MULTI_AGENT_EXECUTION_PLAN.md)
+3. **阶段任务** → 查看 [active/phase-1/](./active/phase-1/) 或 [active/phase-2/](./active/phase-2/)
 
-# 或使用 GitHub
-# git clone https://github.com/XucroYuri/GridWorkflow.git
+### 查看迭代计划
 
-# 2. 启动后端 (终端 1)
-cd backend
-python -m venv .venv
-# Windows: .\.venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
-
-# 3. 启动前端 (终端 2)
-cd frontend
-npm install
-npm run dev
-```
-
-访问 http://localhost:5173 即可使用。
+1. **计划索引** → [plan/INDEX.md](./plan/INDEX.md)
+2. **计划评审** → [plan/REVIEW_AND_RECOMMENDATIONS.md](./plan/REVIEW_AND_RECOMMENDATIONS.md)
 
 ---
 
-## 🏗 架构概览
+## 📋 当前阶段任务
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      Vercel Edge                            │
-├─────────────────────────────────────────────────────────────┤
-│  ┌───────────────┐     ┌────────────────────────────────┐  │
-│  │   Frontend    │     │         Backend API            │  │
-│  │  (Vite/React) │────▶│  (FastAPI Serverless)          │  │
-│  │               │     │                                │  │
-│  │  /index.html  │     │  /api/v1/*  → api/index.py    │  │
-│  │  /assets/*    │     │  /media/*   → api/index.py    │  │
-│  └───────────────┘     │  /health    → api/index.py    │  │
-│                        └────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-                                │
-        ┌───────────────────────┼───────────────────────┐
-        ▼                       ▼                       ▼
-┌───────────────┐      ┌───────────────┐      ┌───────────────┐
-│   AI Gateway  │      │  Tencent COS  │      │   Supabase    │
-│ (ai.t8star.cn)│      │ (媒体存储)    │      │ (认证/数据库) │
-└───────────────┘      └───────────────┘      └───────────────┘
-```
+### Phase 1: 稳定加固 (进行中)
 
-### 核心工作流
+| 任务 | 优先级 | 状态 | 文档 |
+|------|--------|------|------|
+| 工作流持久化 | P0 | 待实施 | [PLAN-v1.1-02](./plan/PLAN-v1.1-02_WORKFLOW_PERSISTENCE.md) |
+| 测试体系建设 | P0 | 待实施 | [PLAN-DEBT-01](./plan/PLAN-DEBT-01_TESTING.md) |
+| Sentry 监控 | P1 | 待实施 | [PLAN-v1.1-03](./plan/PLAN-v1.1-03_SENTRY_MONITORING.md) |
+| 前端性能优化 | P1 | 待实施 | [PLAN-v1.1-01](./plan/PLAN-v1.1-01_PERFORMANCE.md) |
 
-1. **Step 1 - 概念图生成**: 输入风格 + 剧情 → AI 生成概念图
-2. **Step 2 - 分镜规划**: 基于概念图 → AI 生成分镜提示词
-3. **Step 3 - 分镜图生成**: 提示词 → AI 生成 2x2 分镜格子图
-4. **Step 4 - 视频提示词**: 分镜 → AI 生成 Sora2 视频提示词
-5. **Step 5 - 视频生成**: 调用 Sora2 API，异步轮询获取结果
+### Phase 2: 生产就绪 (待启动)
+
+| 任务 | 优先级 | 状态 | 文档 |
+|------|--------|------|------|
+| 安全加固 | P1 | 待实施 | [SECURITY_IMPROVEMENT_PLAN](./active/phase-2/SECURITY_IMPROVEMENT_PLAN.md) |
+| API 文档 | P1 | 待实施 | [PLAN-DEBT-02](./plan/PLAN-DEBT-02_API_DOCS.md) |
 
 ---
 
-## 💻 本地开发
+## 🔗 相关链接
 
-### 后端 (FastAPI)
-
-```bash
-cd backend
-
-# 创建虚拟环境
-python -m venv .venv
-
-# 激活虚拟环境
-# Windows PowerShell:
-.\.venv\Scripts\Activate.ps1
-# Windows CMD:
-.\.venv\Scripts\activate.bat
-# macOS/Linux:
-source .venv/bin/activate
-
-# 安装依赖
-pip install -r requirements.txt
-
-# 配置环境变量 (可选，有默认值)
-cp .env.example .env
-# 编辑 .env 填写 AI_GATEWAY_API_KEY 等
-
-# 启动开发服务器
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-### 前端 (Vite + React + TypeScript)
-
-```bash
-cd frontend
-
-# 安装依赖
-npm install
-
-# 配置环境变量
-cp env.example .env
-# 编辑 .env:
-# VITE_API_BASE_URL=http://localhost:8000/api/v1
-# VITE_SUPABASE_URL=your-supabase-url
-# VITE_SUPABASE_ANON_KEY=your-anon-key
-
-# 启动开发服务器
-npm run dev
-```
-
-### 环境变量参考
-
-| 变量名 | 必填 | 默认值 | 说明 |
-|--------|------|--------|------|
-| `AI_GATEWAY_API_KEY` | ✅ | - | AI 网关密钥 |
-| `AI_GATEWAY_BASE_URL` | ❌ | `https://ai.t8star.cn/v1` | AI 网关地址 |
-| `COS_SECRET_ID` | ⚠️ | - | 腾讯云 COS 密钥 ID |
-| `COS_SECRET_KEY` | ⚠️ | - | 腾讯云 COS 密钥 |
-| `COS_BUCKET` | ⚠️ | - | COS 存储桶名称 |
-| `COS_REGION` | ⚠️ | - | COS 地域 (如 ap-shanghai) |
-| `SUPABASE_URL` | ⚠️ | - | Supabase 项目 URL |
-| `SUPABASE_ANON_KEY` | ⚠️ | - | Supabase 匿名密钥 |
-| `ALLOWED_ORIGINS` | ❌ | `*` | CORS 允许的来源 |
-| `VIDEO_TIMEOUT_SEC` | ❌ | `180` | 视频生成超时时间 |
-
-> ⚠️ 标记的变量在生产环境中必填
+| 资源 | 链接 |
+|------|------|
+| Gitee 仓库 (主) | https://gitee.com/chengdu-flower-food/grid-workflow |
+| GitHub 仓库 | https://github.com/XucroYuri/GridWorkflow |
+| 问题追踪 | [Gitee Issues](https://gitee.com/chengdu-flower-food/grid-workflow/issues) |
 
 ---
 
-## 🌐 生产部署
+## 📝 文档维护规范
 
-> **详细的部署步骤请参阅 [部署指南 (DEPLOY_GUIDE.md)](./DEPLOY_GUIDE.md)**
+### 命名规范
 
-### 快速部署到 Vercel
-
-1. Fork 本仓库到你的 GitHub
-2. 在 [Vercel](https://vercel.com) 导入项目
-3. 配置环境变量
-4. 点击 Deploy
-
-### 部署清单
-
-- [ ] Vercel 项目创建并关联 GitHub
-- [ ] 环境变量配置完成
-- [ ] Supabase 项目创建并配置
-- [ ] 腾讯云 COS 存储桶创建
-- [ ] 自定义域名配置 (可选)
-- [ ] CORS 来源限制 (生产环境必须)
-
----
-
-## 📚 API 文档
-
-### 健康检查
-
-```http
-GET /health
-```
-
-响应示例：
-```json
-{
-  "ok": true,
-  "data": {
-    "status": "ok",
-    "env": "production",
-    "timestamp": "2026-01-07T12:00:00+00:00"
-  },
-  "error": null
-}
-```
-
-### 工作流接口
-
-| 端点 | 方法 | 说明 |
+| 类型 | 格式 | 示例 |
 |------|------|------|
-| `/api/v1/concept` | POST | 生成概念图 |
-| `/api/v1/storyboard/plan` | POST | 规划分镜 |
-| `/api/v1/storyboard/generate` | POST | 生成分镜图 |
-| `/api/v1/video/prompt` | POST | 生成视频提示词 |
-| `/api/v1/video/generate` | POST | 创建视频任务 |
-| `/api/v1/video/status/{task_id}` | GET | 查询视频状态 |
-| `/media/upload` | POST | 上传媒体文件 |
+| 计划文档 | `PLAN-v{版本}-{编号}_{功能}.md` | `PLAN-v1.1-01_PERFORMANCE.md` |
+| 技术债务 | `PLAN-DEBT-{编号}_{类型}.md` | `PLAN-DEBT-01_TESTING.md` |
+| 指导手册 | `{功能}_GUIDE.md` | `DEBUG_GUIDE.md` |
+| 报告文档 | `{类型}_REPORT_{日期}.md` | `CODE_AUDIT_REPORT_2026-01-07.md` |
 
-### 统一响应格式
+### 目录归属
 
-```typescript
-interface Response<T> {
-  ok: boolean;
-  data: T | null;
-  error: {
-    code: string;
-    message: string;
-  } | null;
-}
-```
+- **活跃文档** → `active/` (正在执行的方案)
+- **计划文档** → `plan/` (待实施的迭代计划)
+- **指导手册** → `guides/` (操作指南)
+- **归档文档** → `archive/` (已完成或过时)
+- **报告文档** → `report/` (审计和分析报告)
 
 ---
 
-## 📋 后续迭代计划
-
-### 近期 (v1.1)
-
-- [ ] **性能优化**: 前端图片懒加载、骨架屏
-- [ ] **用户体验**: 工作流进度持久化、断点续传
-- [ ] **监控告警**: 接入 Sentry 错误追踪
-
-### 中期 (v1.2)
-
-- [ ] **多租户支持**: 用户隔离、资源配额
-- [ ] **BYOK (Bring Your Own Key)**: 支持用户自带 AI API Key
-- [ ] **任务队列**: 使用 Redis/Upstash 管理长任务
-
-### 长期 (v2.0)
-
-- [ ] **模型扩展**: 支持更多视频生成模型 (Runway, Pika)
-- [ ] **协作功能**: 团队工作空间、项目共享
-- [ ] **移动端适配**: 响应式 UI 优化
-
-### 技术债务清理
-
-- [ ] 添加单元测试 (pytest + vitest)
-- [ ] E2E 测试 (Playwright)
-- [ ] API 文档自动生成 (OpenAPI)
-- [ ] 显式声明 Pydantic 版本依赖
-
----
-
-## ❓ 常见问题
-
-### Q: 视频生成超时怎么办？
-
-视频生成采用异步模式，`/generate` 接口立即返回 `task_id`，通过 `/status/{task_id}` 轮询获取结果。Vercel Serverless 函数超时不会影响任务执行。
-
-### Q: 如何切换 AI 模型？
-
-通过环境变量配置：
-- `DEFAULT_TEXT_MODEL`: 文本生成模型 (默认 `gemini-3-pro-preview`)
-- `DEFAULT_IMAGE_MODEL`: 图像生成模型 (默认 `nano-banana-2`)
-
-### Q: COS 未配置时会怎样？
-
-媒体上传接口会返回 503 错误。如果请求中包含 `source_url`，会回退到使用该 URL。
-
-### Q: 如何添加 IP 白名单？
-
-设置环境变量：
-```
-IP_ALLOWLIST_ENABLED=true
-IP_ALLOWLIST=1.2.3.4,5.6.7.8
-```
-
----
-
-## 📄 相关文档
-
-- [部署指南](./DEPLOY_GUIDE.md) - 详细的生产环境部署步骤
-- [工作包索引](./WORKPACKS/INDEX.md) - 多 Agent 开发工作包
-- [架构决策记录](./specs/) - 技术规范文档
-
----
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
----
-
-## 📜 许可
-
-MIT License
+**文档维护者**: AI Architect  
+**最后更新**: 2026-01-08

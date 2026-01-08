@@ -89,7 +89,8 @@
 | `docs/plan/REVIEW_AND_RECOMMENDATIONS.md` | 方案审查与建议 |
 | `docs/report/` | 代码审计报告 |
 | `docs/specs/` | 技术规范文档 |
-| `docs/WORKPACKS/` | 工作包详细文档 |
+| `docs/active/multi-agent/` | 多Agent协作方案 |
+| `docs/archive/legacy-workpacks/` | 旧工作包执行证据（历史参考） |
 
 ---
 
@@ -474,10 +475,12 @@ SUPABASE_JWT_SECRET=your-jwt-secret
 
 ### 8.1 相关文档索引
 
-- [部署指南](./DEPLOY_GUIDE.md)
-- [调试指南](./DEBUG_GUIDE.md)
-- [安全改进方案](./SECURITY_IMPROVEMENT_PLAN.md)
+- [部署指南](./guides/DEPLOY_GUIDE.md)
+- [调试指南](./guides/DEBUG_GUIDE.md)
+- [运行环境要求](./guides/RUNTIME_REQUIREMENTS.md)
+- [安全改进方案](./active/phase-2/SECURITY_IMPROVEMENT_PLAN.md)
 - [迭代规划索引](./plan/INDEX.md)
+- [多Agent执行方案](./active/multi-agent/MULTI_AGENT_EXECUTION_PLAN.md)
 - [代码审计报告](./report/CODE_AUDIT_REPORT_2026-01-07.md)
 
 ### 8.2 联系方式
