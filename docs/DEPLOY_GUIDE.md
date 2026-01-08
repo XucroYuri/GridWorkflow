@@ -143,6 +143,12 @@ SecretKey:  <你的SecretKey> (保密!)
 
 ### 4.1 Fork 仓库
 
+**方式一：从 Gitee Fork (国内推荐)**
+1. 访问 [GridWorkflow Gitee 仓库](https://gitee.com/chengdu-flower-food/grid-workflow)
+2. 点击右上角 **Fork**
+3. 选择你的账号，完成 Fork
+
+**方式二：从 GitHub Fork**
 1. 访问 [GridWorkflow GitHub 仓库](https://github.com/XucroYuri/GridWorkflow)
 2. 点击右上角 **Fork**
 3. 选择你的账号，点击 **Create fork**
@@ -471,7 +477,9 @@ ALLOWED_ORIGINS=https://yourdomain.com,https://app.yourdomain.com
 
 如果以上步骤仍无法解决问题：
 
-1. 查看 [GitHub Issues](https://github.com/XucroYuri/GridWorkflow/issues)
+1. 查看 Issues：
+   - [Gitee Issues](https://gitee.com/chengdu-flower-food/grid-workflow/issues) (国内优先)
+   - [GitHub Issues](https://github.com/XucroYuri/GridWorkflow/issues)
 2. 提交新 Issue，附上：
    - 错误截图
    - Vercel 构建/函数日志

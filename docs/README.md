@@ -29,9 +29,12 @@
 ### 一键本地启动
 
 ```bash
-# 1. 克隆仓库
-git clone https://github.com/XucroYuri/GridWorkflow.git
-cd GridWorkflow
+# 1. 克隆仓库 (推荐使用 Gitee 国内源)
+git clone https://gitee.com/chengdu-flower-food/grid-workflow.git
+cd grid-workflow
+
+# 或使用 GitHub
+# git clone https://github.com/XucroYuri/GridWorkflow.git
 
 # 2. 启动后端 (终端 1)
 cd backend
