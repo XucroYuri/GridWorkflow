@@ -237,24 +237,28 @@ export function useWorkflowPersistence() {
           .eq('id', cachedId)
           .single();
         
-        if (data && !error) {
+        // 显式检查：error 必须为 null 且 data 必须存在
+        if (error === null && data !== null) {
           setSession(data);
           setLoading(false);
           return;
         }
+        // 如果缓存的会话不存在或查询失败，清除缓存并继续创建新会话
+        localStorage.removeItem(STORAGE_KEY);
       }
       
       // 创建新会话
-      const { data, error } = await supabase
+      const { data: newData, error: createError } = await supabase
         .from('workflow_sessions')
         .insert({ user_id: user.id })
         .select()
         .single();
       
-      if (error) throw error;
+      if (createError !== null) throw createError;
+      if (newData === null) throw new Error('创建会话失败：返回数据为空');
       
-      localStorage.setItem(STORAGE_KEY, data.id);
-      setSession(data);
+      localStorage.setItem(STORAGE_KEY, newData.id);
+      setSession(newData);
     } catch (err) {
       setError(err instanceof Error ? err.message : '加载会话失败');
     } finally {

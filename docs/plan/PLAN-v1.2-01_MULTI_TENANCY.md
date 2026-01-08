@@ -200,6 +200,10 @@ class QuotaService:
             'api_quota_daily'
         ).eq('id', self.organization_id).single().execute()
         
+        # 验证查询结果：确保 data 存在且非 None
+        if org.data is None:
+            raise ValueError(f"组织不存在或查询失败: {self.organization_id}")
+        
         limit = org.data.get('api_quota_daily', 100)
         
         # 获取今日使用量
@@ -210,7 +214,8 @@ class QuotaService:
             'date', today
         ).execute()
         
-        current = sum(u['api_calls'] for u in usage.data) if usage.data else 0
+        # 安全访问 usage.data，防止 None
+        current = sum(u['api_calls'] for u in (usage.data or []))
         
         if current >= limit:
             return QuotaStatus(
