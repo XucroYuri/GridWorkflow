@@ -2,195 +2,348 @@
 
 > **状态**: 📋 **规划中**  
 > **完成度**: 0%  
-> **最后更新**: 2026-01-08
+> **最后更新**: 2026-01-08  
+> **适用范围**: Phase 1 (稳定加固) + Phase 2 (生产就绪)
+
+---
+
+## ⚠️ 重要说明
+
+本文档针对**当前活跃阶段**（Phase 1 和 Phase 2）的任务，而非已完成的 v1.0 MVP 阶段。
+
+- **v1.0 已完成工作包**: 已归档至 `docs/archive/legacy-workpacks/`，仅作历史参考
+- **当前活跃任务**: Phase 1 (工作流持久化、测试体系、Sentry) + Phase 2 (安全改进)
+- **详细执行方案**: 参见 [MULTI_AGENT_EXECUTION_PLAN.md](./MULTI_AGENT_EXECUTION_PLAN.md)
+
+---
 
 ## 0. 使用方式（给 Agent 下指令）
-- 指定角色：`Codex` / `Gemini` / `Joint`。
-- 把对应的 **WP 文档**整份发送给该 Agent。
-- 要求“只改工作包范围内文件，并按验收 Checklist 交付证据”。
-- 若需跨包改动：先更新相关 WP/PLAN 的“依赖/输入输出/验收”，再改实现。
 
-## 1. 阶段与顺序
-### 1.1 启动与门禁（串行）
-1) `Joint` → `WP-GW-00_GOVERNANCE`（冻结不变量：响应结构 `{ok,data,error}`、Prompt 单一来源、apiClient 单入口、中文 UI、output_language 可控）
-2) `Joint` → `WP-GW-90_RISK_REGISTER`（风险条目作为后续验收门禁，交付时需对照给出证据）
+- 指定角色：`Expert (Claude)` / `Backend (Codex)` / `Frontend (Gemini)`
+- 把对应的 **PLAN 文档**或 **Stage 详细方案**整份发送给该 Agent
+- 要求"只改工作包范围内文件，并按验收 Checklist 交付证据"
+- 若需跨包改动：先更新相关 PLAN 的"依赖/输入输出/验收"，再改实现
 
-### 1.2 骨架可启动（串行内含并行）
-3) `Codex` → `WP-GW-01_BOOTSTRAP`（后端 `/health` 先行）
-4) `Gemini` → 同一工作包（前端首页 + 启动基线）
-连接点：端口、API Base、`.env.example`、README。自此后续包均可本地跑通。
+---
 
-### 1.3 并行主干
-**后端（Codex Team）**
-- `WP-GW-02_BACKEND_PROXY`
-- `WP-GW-03_VIDEO_SORA2`
-- `WP-GW-04_STORAGE_COS`
-连接点：统一错误结构与脱敏、视频返回 `task_id`、媒体统一 URL 出站（COS）。
+## 1. 当前阶段任务总览
 
-**前端（Gemini Team）**
-- `WP-GW-05_FRONTEND_SHELL`
-- `WP-GW-07_VIDEO_STUDIO_UI`
-连接点：先完成 `apiClient.ts` 与 Light Theme 基座；Video Studio 只对接后端接口，不直连上游。
+### Phase 1: 稳定加固 (P0 - 必须完成)
 
-### 1.4 关键串行点（契约先于实现）
-5) `Claude` → `WP-GW-06A_FLOW_CONTRACT`（冻结 Step1~Step4 字段/默认值/错误码/状态枚举；九宫格产物形态二选一并冻结：9 个 URL 或单张拼图）
-6) 完成后再进入 `WP-GW-06_GRIDWORKFLOW_FLOW`（`Gemini` 状态机 + `Codex` 接口实现，按冻结契约逐步替换 mock，Reroll 只重绘不触发 LLM）
+| 任务 | 工时 | 负责 | 详细方案 |
+|------|------|------|----------|
+| 1.1 工作流持久化 | 5-7天 | Backend + Frontend | [PHASE_1_IMPLEMENTATION.md](../phase-1/PHASE_1_IMPLEMENTATION.md#11-工作流持久化) |
+| 1.2 测试体系基础 | 10-15天 | Backend + Frontend | [PHASE_1_IMPLEMENTATION.md](../phase-1/PHASE_1_IMPLEMENTATION.md#12-测试体系基础) |
+| 1.3 Sentry 监控 | 2-3天 | Joint | [PHASE_1_IMPLEMENTATION.md](../phase-1/PHASE_1_IMPLEMENTATION.md#13-sentry-监控) |
 
-### 1.5 收敛与上线（串行）
-7) 鉴权：`Joint` 或 `Codex+Claude+Gemini` → `WP-GW-09_AUTH_SUPABASE`
-8) 弱鉴权：`Codex`（Claude 复核安全） → `WP-GW-10_IP_ALLOWLIST`
-9) 部署收敛：`Joint` → `WP-GW-08_DEPLOY_VERCEL`
-备注：已在最终仓库路径，无需再执行剥离（WP-GW-11_DETACH_REPO 暂停）。
+### Phase 2: 生产就绪 (P1 - 安全加固)
 
-## 2. 验收与门禁执行
-- 每个工作包交付时，对照 `WP-GW-90_RISK_REGISTER` 相关风险条目提供证据（成本/并发、脱敏、长任务异步、输出语言一致性等）。
-- 违反不变量（响应结构、Prompt 单一来源、apiClient 单入口、中文 UI、output_language 可控）视为直接退回。
+| 任务 | 优先级 | 负责 | 详细方案 |
+|------|--------|------|----------|
+| SEC-01 CORS 配置 | P0 | Backend | [SECURITY_IMPROVEMENT_PLAN.md](../phase-2/SECURITY_IMPROVEMENT_PLAN.md#-sec-01-cors-配置过于宽松) |
+| SEC-02 BYOK 密钥存储 | P0 | Backend | [SECURITY_IMPROVEMENT_PLAN.md](../phase-2/SECURITY_IMPROVEMENT_PLAN.md#-sec-02-byok-密钥存储安全) |
+| SEC-03 Sentry 敏感信息 | P1 | Joint | [SECURITY_IMPROVEMENT_PLAN.md](../phase-2/SECURITY_IMPROVEMENT_PLAN.md#-sec-03-sentry-敏感信息泄露) |
+| SEC-04 JWT 验证 | P1 | Backend | [SECURITY_IMPROVEMENT_PLAN.md](../phase-2/SECURITY_IMPROVEMENT_PLAN.md#-sec-04-jwt-验证配置) |
+| SEC-05 API 速率限制 | P1 | Backend | [SECURITY_IMPROVEMENT_PLAN.md](../phase-2/SECURITY_IMPROVEMENT_PLAN.md#-sec-05-api-速率限制缺失) |
+| SEC-06 日志敏感信息 | P1 | Backend | [SECURITY_IMPROVEMENT_PLAN.md](../phase-2/SECURITY_IMPROVEMENT_PLAN.md#-sec-06-日志敏感信息) |
+| SEC-07 RLS 策略验证 | P2 | Backend | [SECURITY_IMPROVEMENT_PLAN.md](../phase-2/SECURITY_IMPROVEMENT_PLAN.md#-sec-07-rls-策略验证) |
+| SEC-08 依赖包安全 | P2 | Joint | [SECURITY_IMPROVEMENT_PLAN.md](../phase-2/SECURITY_IMPROVEMENT_PLAN.md#-sec-08-依赖包安全) |
 
-## 3. 物料与参考
-- 环境占位：`.env.example`（后端端口、`AI_GATEWAY_BASE_URL`/`API_KEY`、前端 `VITE_API_BASE_URL`）。
-- 参考代码（只作对照，不直接耦合）：`docs/reference/mother/`
-  - `server/routes/ai.ts`、`server/config.ts`
-  - `components/Layout/MainLayout.tsx`、`components/Lightbox.tsx`、`components/Toast.tsx`
-  - `services/queueService.ts`
+---
 
-## 4. 指挥口径（一句话规则）
-“指定角色 + 发送对应 WP 全文 + 限定改动范围 + 要求按验收 Checklist 出证据；跨包先改契约/门禁文档，再动实现。”
+## 2. Phase 1 执行顺序与窗口分配
 
-## 5. 窗口策略与编号（新建/继承 & 串并行）
-- 串行步骤：新开“上下文窗口”编号递增（S1, S2, ...），避免历史上下文干扰；仅在同角色且同工作包的连续细化时复用。
-- 并行步骤：为每个并行 Agent 分配独立窗口编号（P1, P2, ...），互不共享上下文；完成后将结果汇总到后续串行窗口。
-- 建议编号映射（可直接使用，含 Agent 角色）：
-  - S1: Claude（Joint）→ `WP-GW-00_GOVERNANCE`（新建）
-  - S2: Claude（Joint）→ `WP-GW-90_RISK_REGISTER`（新建）
-  - S3: Codex → `WP-GW-01_BOOTSTRAP` 后端（新建）
-  - S4: Gemini → `WP-GW-01_BOOTSTRAP` 前端（新建）
-  - P1: Codex → `WP-GW-02_BACKEND_PROXY`（并行）
-  - P2: Codex → `WP-GW-03_VIDEO_SORA2`（并行）
-  - P3: Codex → `WP-GW-04_STORAGE_COS`（并行）
-  - P4: Gemini → `WP-GW-05_FRONTEND_SHELL`（并行）
-  - P5: Gemini → `WP-GW-07_VIDEO_STUDIO_UI`（并行）
-  - S5: Claude → `WP-GW-06A_FLOW_CONTRACT`（新建，关键契约冻结）
-  - S6: Joint（Codex+Gemini，Claude 复核契约）→ `WP-GW-06_GRIDWORKFLOW_FLOW`（继承 S5）
-  - S7: Joint（Codex+Gemini+Claude 安全审阅）→ `WP-GW-09_AUTH_SUPABASE`（新建）
-  - S8: Codex（Claude 复核安全）→ `WP-GW-10_IP_ALLOWLIST`（新建）
-  - S9: Joint（Codex+Gemini，Claude 复核安全）→ `WP-GW-08_DEPLOY_VERCEL`（新建，收敛上线）
+### 2.1 执行时序
 
-## 6. Agent 启动指令（可直接复制）
-> 使用方式：在对应窗口发送整段指令；附上对应 WP 文档全文。
+```
+Week 1-2: 工作流持久化
+├── Stage 1.1: Supabase 数据表设计 (Expert审核 → Backend实现 → Expert验收)
+├── Stage 1.2: 后端API + 前端Hook (并行: Backend + Frontend)
+└── Stage 1.3: 组件改造 (Frontend实现 → Expert审核)
+
+Week 2-3: 测试体系 (与Stage 1.2并行启动)
+├── Stage 2.1: 后端测试 + 前端测试 (并行: Backend + Frontend)
+└── Stage 2.2: CI配置 (Expert配置 → Expert审核)
+
+Week 3-4: Sentry 监控
+├── Stage 3.1: Sentry集成 (并行: Backend + Frontend)
+└── Stage 3.2: 告警规则配置 (Expert配置)
+```
+
+### 2.2 窗口编号与Agent分配
+
+| 窗口ID | Agent | Stage | 任务 | 状态 |
+|--------|-------|-------|------|------|
+| #E1 | Expert (Claude) | 1.1-1.3 | 数据表审核、联调审核、最终验收 | 待启动 |
+| #B1 | Backend (Codex) | 1.1 | Supabase 数据表实现 | 待启动 |
+| #B2 | Backend (Codex) | 1.2 | 后端 API 实现 | 待启动 |
+| #F1 | Frontend (Gemini) | 1.2-1.3 | Hook实现、组件改造 | 待启动 |
+| #B3 | Backend (Codex) | 2.1 | 后端测试 (pytest) | 待启动 |
+| #F2 | Frontend (Gemini) | 2.1 | 前端测试 (vitest) | 待启动 |
+| #E2 | Expert (Claude) | 2.2, 3.2 | CI配置、告警规则配置 | 待启动 |
+| #B4 | Backend (Codex) | 3.1 | 后端 Sentry 集成 | 待启动 |
+| #F3 | Frontend (Gemini) | 3.1 | 前端 Sentry 集成 | 待启动 |
+
+---
+
+## 3. Phase 2 执行顺序（Phase 1 完成后启动）
+
+### 3.1 优先级排序
+
+**P0 优先级（立即执行）**:
+1. SEC-01: CORS 配置修复 (Backend)
+2. SEC-02: BYOK 密钥存储安全 (Backend，依赖 v1.2-02)
+
+**P1 优先级（Phase 1 完成后）**:
+3. SEC-03: Sentry 敏感信息过滤 (Joint，依赖 Phase 1.3)
+4. SEC-04: JWT 验证增强 (Backend)
+5. SEC-05: API 速率限制 (Backend)
+6. SEC-06: 日志敏感信息过滤 (Backend)
+
+**P2 优先级（后续迭代）**:
+7. SEC-07: RLS 策略验证 (Backend，依赖 v1.2-01)
+8. SEC-08: 依赖包安全扫描 (Joint)
+
+### 3.2 窗口分配建议
+
+| 窗口ID | Agent | 任务 | 状态 |
+|--------|-------|------|------|
+| #B5 | Backend (Codex) | SEC-01 CORS 修复 | 待启动 |
+| #B6 | Backend (Codex) | SEC-02 BYOK 密钥存储 | 待启动 |
+| #J1 | Joint (Codex+Gemini) | SEC-03 Sentry 过滤 | 待启动 |
+| #B7 | Backend (Codex) | SEC-04 JWT 验证 | 待启动 |
+| #B8 | Backend (Codex) | SEC-05 Rate Limiting | 待启动 |
+| #B9 | Backend (Codex) | SEC-06 日志过滤 | 待启动 |
+
+---
+
+## 4. Agent 启动指令（Phase 1）
+
+> 使用方式：在对应窗口发送整段指令；附上对应的 PLAN 文档或 Stage 详细方案。
+
+### Stage 1.1: 工作流持久化 - 数据表设计
 
 ```text
-【S1 Claude (Joint) / WP-GW-00_GOVERNANCE】
-角色：Claude（Joint，治理与门禁）
-任务：执行 WP-GW-00_GOVERNANCE，冻结不变量；只改 docs/**；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-00_GOVERNANCE.md
+【#E1 Expert / Stage 1.1 数据表审核】
+角色：Expert (Claude)
+任务：审核工作流持久化数据表设计方案，检查 RLS 策略、索引设计、性能考虑
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.1, Step 1)
+输出：审核结论、优化建议、最终确认的 SQL DDL
 ```
 
 ```text
-【S2 Claude (Joint) / WP-GW-90_RISK_REGISTER】
-角色：Claude（Joint，风险兜底）
-任务：执行 WP-GW-90_RISK_REGISTER，完善风险条目与兜底策略；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-90_RISK_REGISTER.md
+【#B1 Backend / Stage 1.1 数据表实现】
+角色：Backend (Codex)
+任务：在 Supabase 中创建 workflow_sessions 和 video_tasks 表，配置 RLS 策略
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.1, Step 1)
+输出：SQL DDL 脚本、执行结果、RLS 策略验证
+```
+
+### Stage 1.2: 工作流持久化 - API + Hook
+
+```text
+【#B2 Backend / Stage 1.2 后端API实现】
+角色：Backend (Codex)
+任务：实现 /api/v1/sessions 和 /api/v1/video/tasks 后端接口
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.1, Step 2)
+输出：API 实现、单元测试、API 文档
 ```
 
 ```text
-【S3 Codex / WP-GW-01_BOOTSTRAP】
-角色：Codex（后端）
-任务：完成后端骨架与 /health；统一 `{ok,data,error}`；只改 backend/** 与 docs/**；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-01_BOOTSTRAP.md
+【#F1 Frontend / Stage 1.2 Hook实现】
+角色：Frontend (Gemini)
+任务：实现 useWorkflowPersistence Hook，支持会话保存和恢复
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.1, Step 3)
+输出：Hook 实现、类型定义、使用示例
+```
+
+### Stage 1.3: 工作流持久化 - 组件改造
+
+```text
+【#F1 Frontend / Stage 1.3 组件改造】
+角色：Frontend (Gemini)
+任务：改造 GridWorkflow 组件，集成 useWorkflowPersistence Hook
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.1, Step 4)
+输出：组件改造、状态恢复验证、刷新测试
+```
+
+### Stage 2.1: 测试体系
+
+```text
+【#B3 Backend / Stage 2.1 后端测试】
+角色：Backend (Codex)
+任务：配置 pytest，编写 Services 和 API 单元测试，目标覆盖率 > 50%
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.2)
+输出：pytest 配置、测试用例、覆盖率报告
 ```
 
 ```text
-【S4 Gemini / WP-GW-01_BOOTSTRAP】
-角色：Gemini Agent（前端）
-任务：完成前端首页与启动基线；Light Theme；只改 frontend/** 与 docs/**；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-01_BOOTSTRAP.md
+【#F2 Frontend / Stage 2.1 前端测试】
+角色：Frontend (Gemini)
+任务：配置 Vitest，编写组件和 Hook 测试，目标覆盖率 > 50%
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.2)
+输出：vitest 配置、测试用例、覆盖率报告
 ```
 
 ```text
-【P1 Codex / WP-GW-02_BACKEND_PROXY】
-角色：Codex
-任务：AI 网关代理（文本/图像）；脱敏与统一错误结构；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-02_BACKEND_PROXY.md
+【#E2 Expert / Stage 2.2 CI配置】
+角色：Expert (Claude)
+任务：配置 GitHub Actions CI，集成测试和覆盖率检查
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.2, Step 4)
+输出：CI 配置、测试通过验证、覆盖率报告
+```
+
+### Stage 3.1: Sentry 监控
+
+```text
+【#B4 Backend / Stage 3.1 后端Sentry集成】
+角色：Backend (Codex)
+任务：集成 sentry-sdk，配置错误追踪和性能监控
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.3, Step 2)
+输出：Sentry 集成、错误上报验证、性能追踪验证
 ```
 
 ```text
-【P2 Codex / WP-GW-03_VIDEO_SORA2】
-角色：Codex
-任务：视频生成与状态查询，返回 task_id，标准错误结构；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-03_VIDEO_SORA2.md
+【#F3 Frontend / Stage 3.1 前端Sentry集成】
+角色：Frontend (Gemini)
+任务：集成 @sentry/react，配置错误边界和性能监控
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.3, Step 3)
+输出：Sentry 集成、ErrorBoundary 实现、错误上报验证
 ```
 
 ```text
-【P3 Codex / WP-GW-04_STORAGE_COS】
-角色：Codex
-任务：媒体统一出站到 COS；签名/脱敏；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-04_STORAGE_COS.md
+【#E2 Expert / Stage 3.2 告警规则配置】
+角色：Expert (Claude)
+任务：在 Sentry Dashboard 配置错误告警和性能告警规则
+文档：docs/active/phase-1/PHASE_1_IMPLEMENTATION.md (Section 1.3, Step 4)
+输出：告警规则配置、通知渠道验证
+```
+
+---
+
+## 5. Agent 启动指令（Phase 2 - 安全改进）
+
+### P0 优先级任务
+
+```text
+【#B5 Backend / SEC-01 CORS修复】
+角色：Backend (Codex)
+任务：修复 CORS 配置，生产环境强制配置，禁止默认 "*"
+文档：docs/active/phase-2/SECURITY_IMPROVEMENT_PLAN.md (Section SEC-01)
+输出：CORS 配置修复、生产环境验证、安全测试
 ```
 
 ```text
-【P4 Gemini / WP-GW-05_FRONTEND_SHELL】
-角色：Gemini Agent
-任务：前端基座 + apiClient 单入口 + Light Theme；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-05_FRONTEND_SHELL.md
+【#B6 Backend / SEC-02 BYOK密钥存储】
+角色：Backend (Codex)
+任务：实现 BYOK 密钥加密存储，使用 Fernet 加密，密钥存储在 Supabase Vault
+文档：docs/active/phase-2/SECURITY_IMPROVEMENT_PLAN.md (Section SEC-02)
+输出：密钥加密实现、Supabase Vault 集成、安全验证
+```
+
+### P1 优先级任务
+
+```text
+【#J1 Joint / SEC-03 Sentry敏感信息过滤】
+角色：Joint (Codex + Gemini)
+任务：在 Sentry 集成中添加敏感信息过滤，移除 API Key、Token 等
+文档：docs/active/phase-2/SECURITY_IMPROVEMENT_PLAN.md (Section SEC-03)
+输出：beforeSend 过滤函数、敏感信息验证
 ```
 
 ```text
-【P5 Gemini / WP-GW-07_VIDEO_STUDIO_UI】
-角色：Gemini Agent
-任务：/video 工作台 UI，任务列表/预览，后端接口对接（不直连上游）；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-07_VIDEO_STUDIO_UI.md
+【#B7 Backend / SEC-04 JWT验证增强】
+角色：Backend (Codex)
+任务：增强 JWT 验证，添加 issuer 验证、audience 验证
+文档：docs/active/phase-2/SECURITY_IMPROVEMENT_PLAN.md (Section SEC-04)
+输出：JWT 验证增强、安全测试
 ```
 
 ```text
-【S5 Claude / WP-GW-06A_FLOW_CONTRACT】
-角色：Claude（契约负责人）
-任务：冻结 Step1~Step4 契约（字段/默认值/错误码/状态枚举；九宫格产物形态二选一并冻结）；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-06A_FLOW_CONTRACT.md
+【#B8 Backend / SEC-05 Rate Limiting】
+角色：Backend (Codex)
+任务：实现 API 速率限制，使用 slowapi 或自定义中间件
+文档：docs/active/phase-2/SECURITY_IMPROVEMENT_PLAN.md (Section SEC-05)
+输出：Rate Limiting 实现、限流测试、性能测试
 ```
 
 ```text
-【S6 Joint (Codex+Gemini，Claude 复核) / WP-GW-06_GRIDWORKFLOW_FLOW】
-角色：Joint 协同（前端状态机 + 后端实现）
-任务：按已冻结契约完成四步闭环；前端状态机、后端替换 mock；Reroll 仅重绘；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-06_GRIDWORKFLOW_FLOW.md
+【#B9 Backend / SEC-06 日志敏感信息过滤】
+角色：Backend (Codex)
+任务：增强日志过滤，移除敏感信息（API Key、Token、完整 Prompt）
+文档：docs/active/phase-2/SECURITY_IMPROVEMENT_PLAN.md (Section SEC-06)
+输出：日志过滤实现、敏感信息验证
 ```
 
-```text
-【S7 Joint (Codex+Gemini，Claude 安全审阅) / WP-GW-09_AUTH_SUPABASE】
-角色：联合
-任务：Supabase 鉴权与基础数据隔离（JWT/RLS）；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-09_AUTH_SUPABASE.md
-```
+---
 
-```text
-【S8 Codex（Claude 复核） / WP-GW-10_IP_ALLOWLIST】
-角色：Codex（Claude 复核）
-任务：IP 白名单弱鉴权（只读接口），生成接口仍需 JWT；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-10_IP_ALLOWLIST.md
-```
+## 6. 验收与门禁执行
 
-```text
-【S9 Joint (Codex+Gemini，Claude 复核) / WP-GW-08_DEPLOY_VERCEL】
-角色：Joint（Codex+Gemini，Claude 复核）
-任务：Vercel 部署收敛，异步任务不超时，媒体外置；按验收清单出证据。
-文档：docs/archive/legacy-workpacks/gridworkflow/WP-GW-08_DEPLOY_VERCEL.md
-```
+### 6.1 全局冻结项（必须遵守）
 
-## 7. Git 提交流程（默认习惯）
+所有 Agent 必须遵守 [FROZEN_INVARIANTS.md](./FROZEN_INVARIANTS.md) 定义的约束：
+
+- ✅ 统一响应结构 `{ok, data, error}`
+- ✅ Prompt 单一来源（后端）
+- ✅ API Client 单入口（前端）
+- ✅ UI 文案仅简体中文
+- ✅ 安全门禁（密钥脱敏、外部调用隔离、错误脱敏）
+- ✅ 错误码规范
+- ✅ 任务状态枚举
+
+**违反冻结项视为直接退回**
+
+### 6.2 验收 Checklist
+
+每个 Stage 完成后，Agent 需要提供：
+
+- [ ] 代码实现符合工作包范围
+- [ ] 通过单元测试（如有）
+- [ ] 符合全局冻结项
+- [ ] 文档已更新（如有需要）
+- [ ] 验收要点已满足（见各 PLAN 文档）
+
+---
+
+## 7. Git 提交流程
 
 > **仓库性质**:
 > - **Gitee**: 内部开发主仓库，所有日常开发在此进行
 > - **GitHub**: 快速部署临时仓库，仅用于 Vercel 等平台部署
 
-- 每个 Agent 在对应窗口任务通过验收后，默认执行一次提交与推送，保持可审计历史。
+- 每个 Agent 在对应窗口任务通过验收后，默认执行一次提交与推送，保持可审计历史
 - 推荐分支/提交规范：
-  - 分支：`feature/<WP>-<window>`（如 `feature/WP-GW-02-P1`），合并到 `main` 时走 PR。
-  - 提交信息：`<window> <WP> <summary>`（如 `P1 WP-GW-02 proxy error handling`）。
+  - 分支：`feature/<Stage>-<window>`（如 `feature/stage-1.1-B1`），合并到 `main` 时走 PR
+  - 提交信息：`<window> <Stage> <summary>`（如 `#B1 Stage-1.1 implement workflow tables`）
 - 安全与清单：
-  - `.env`、密钥、私有证书严禁入库；先确认 `.gitignore` 覆盖。
-  - 提交前附验收要点：成功/失败用例、风险条目对应的证据。
-- 仓库初始化与推送（如尚未创建远程）：
-  - 本地：`git init`（如未初始化），`git add . && git commit -m "init docs/workflow"`。
-  - 远程：**优先使用 Gitee 主仓库** `git remote add origin <gitee-repo-url>`，`git push -u origin main`。
-  - 需要部署时再同步到 GitHub：`git remote add github <github-repo-url>`，`git push github main`。
-  - 完成后为后续窗口保持"验收→提交→推送到 Gitee"的固定节奏。
+  - `.env`、密钥、私有证书严禁入库；先确认 `.gitignore` 覆盖
+  - 提交前附验收要点：成功/失败用例、风险条目对应的证据
+- 推送命令：
+  - **日常开发**: `git push gitee main`（推送到 Gitee 主仓库）
+  - **需要部署时**: `git push github main`（同步到 GitHub 部署仓库）
+
+---
+
+## 8. 参考文档
+
+### Phase 1 详细方案
+- [PHASE_1_IMPLEMENTATION.md](../phase-1/PHASE_1_IMPLEMENTATION.md) - Phase 1 完整实施方案
+- [PLAN-v1.1-02_WORKFLOW_PERSISTENCE.md](../../plan/PLAN-v1.1-02_WORKFLOW_PERSISTENCE.md) - 工作流持久化详细计划
+- [PLAN-DEBT-01_TESTING.md](../../plan/PLAN-DEBT-01_TESTING.md) - 测试体系建设详细计划
+- [PLAN-v1.1-03_SENTRY_MONITORING.md](../../plan/PLAN-v1.1-03_SENTRY_MONITORING.md) - Sentry 监控详细计划
+
+### Phase 2 详细方案
+- [SECURITY_IMPROVEMENT_PLAN.md](../phase-2/SECURITY_IMPROVEMENT_PLAN.md) - 安全改进完整方案
+
+### 多 Agent 执行方案
+- [MULTI_AGENT_EXECUTION_PLAN.md](./MULTI_AGENT_EXECUTION_PLAN.md) - 详细执行方案和 Agent Prompt
+- [FROZEN_INVARIANTS.md](./FROZEN_INVARIANTS.md) - 全局冻结项
+- [ROADMAP_MULTI_AGENT.md](./ROADMAP_MULTI_AGENT.md) - 多 Agent 路线图
+
+### 主计划
+- [MASTER_PLAN_2026.md](../../MASTER_PLAN_2026.md) - 项目主计划
+
+---
+
+**文档维护者**: AI Architect  
+**最后更新**: 2026-01-08

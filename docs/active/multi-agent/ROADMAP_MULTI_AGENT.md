@@ -2,9 +2,20 @@
 
 > **状态**: 📋 **规划中**  
 > **完成度**: 0%  
-> **最后更新**: 2026-01-08
+> **最后更新**: 2026-01-08  
+> **适用范围**: 通用路线图模板
 
 **目标**：把 GridWorkflow 的研发拆成可由 Agent 独立执行的工作包，并明确哪些必须串行（契约/安全/鉴权），哪些可并行（UI 与后端实现分离、页面与服务并行）。
+
+---
+
+## ⚠️ 重要说明
+
+**当前活跃阶段**: Phase 1 (稳定加固) + Phase 2 (生产就绪)
+
+- **v1.0 MVP 阶段工作包**（WP-GW-00 到 WP-GW-11）: 已完成，已归档至 `docs/archive/legacy-workpacks/`，仅作历史参考
+- **当前执行任务**: 参见 [WORKFLOW_MULTI_AGENT.md](./WORKFLOW_MULTI_AGENT.md) 和 [MULTI_AGENT_EXECUTION_PLAN.md](./MULTI_AGENT_EXECUTION_PLAN.md)
+- **本文档**: 作为通用路线图模板，展示多 Agent 协作的组织方式，当前阶段请参考上述文档
 
 ---
 

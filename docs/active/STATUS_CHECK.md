@@ -15,7 +15,7 @@
 | Multi-Agent | MULTI_AGENT_EXECUTION_PLAN.md | 📋 **规划中** | 0% | ✅ 准确 |
 | Multi-Agent | FROZEN_INVARIANTS.md | ✅ **已定义** | 100% | ✅ 准确 |
 | Multi-Agent | ROADMAP_MULTI_AGENT.md | 📋 **规划中** | 0% | ✅ 准确 |
-| Multi-Agent | WORKFLOW_MULTI_AGENT.md | 📋 **规划中** | 0% | ✅ 准确 |
+| Multi-Agent | WORKFLOW_MULTI_AGENT.md | ✅ **已更新** | 100% | ✅ 准确（已更新为 Phase 1/2 任务） |
 
 ---
 
