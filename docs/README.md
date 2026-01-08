@@ -2,7 +2,8 @@
 
 > **更新日期**: 2026-01-08  
 > **文档版本**: 2.0  
-> **项目阶段**: MVP 完成 → 生产加固
+> **项目阶段**: MVP 完成 → 生产加固  
+> ⚠️ **内部项目**: 本项目为企业内部开发项目，仅供授权人员使用。
 
 ---
 
@@ -117,12 +118,12 @@ docs/
 
 ---
 
-## 🔗 相关链接
+## 🔗 内部资源
 
 | 资源 | 链接 |
 |------|------|
 | Gitee 仓库 (主) | https://gitee.com/chengdu-flower-food/grid-workflow |
-| GitHub 仓库 | https://github.com/XucroYuri/GridWorkflow |
+| GitHub 仓库 (备份) | https://github.com/XucroYuri/GridWorkflow |
 | 问题追踪 | [Gitee Issues](https://gitee.com/chengdu-flower-food/grid-workflow/issues) |
 
 ---

@@ -2,13 +2,13 @@
 
 > 🎬 AI 驱动的视频创作工作流平台 — 从创意构思到视频生成的一站式解决方案
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/XucroYuri/GridWorkflow)
+> ⚠️ **内部项目**: 本项目为企业内部开发项目，仅供授权人员使用。
 
 ## ✨ 特性
 
 - **四步工作流**: 概念图 → 分镜规划 → 分镜图 → 视频生成
 - **AI 驱动**: 集成 Gemini、Nano-Banana、Sora2 等模型
-- **一键部署**: Vercel Serverless 架构，零运维成本
+- **Serverless 架构**: 基于 Vercel 部署，低运维成本
 - **安全可靠**: Supabase 认证 + 腾讯云 COS 存储
 
 ## 🚀 快速开始
@@ -96,11 +96,7 @@ ALLOWED_ORIGINS=https://yourdomain.com
 
 完整变量列表见 [部署指南](docs/guides/DEPLOY_GUIDE.md#51-环境变量完整清单)
 
-## 📄 许可
+---
 
-MIT License
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
+> ⚠️ **声明**: 本项目为企业内部开发项目，仅供内部使用，未经授权禁止对外分发。
 

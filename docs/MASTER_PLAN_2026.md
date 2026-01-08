@@ -2,7 +2,8 @@
 
 > **版本**: 2026-01-08  
 > **状态**: 📋 计划执行中  
-> **项目阶段**: MVP 完成 → 生产加固
+> **项目阶段**: MVP 完成 → 生产加固  
+> ⚠️ **内部项目**: 本项目为企业内部开发项目，仅供授权人员使用。
 
 ---
 
@@ -379,7 +380,7 @@ curl http://localhost:8000/health
 
 #### 前置准备
 
-- [ ] GitHub 仓库 Fork 完成
+- [ ] Git 仓库访问权限确认
 - [ ] Supabase 项目创建完成
 - [ ] 腾讯云 COS 存储桶创建完成
 - [ ] AI Gateway API Key 获取
@@ -483,11 +484,10 @@ SUPABASE_JWT_SECRET=your-jwt-secret
 - [多Agent执行方案](./active/multi-agent/MULTI_AGENT_EXECUTION_PLAN.md)
 - [代码审计报告](./report/CODE_AUDIT_REPORT_2026-01-07.md)
 
-### 8.2 联系方式
+### 8.2 内部联系方式
 
-- Gitee Issues: https://gitee.com/chengdu-flower-food/grid-workflow/issues
-- GitHub Issues: https://github.com/XucroYuri/GridWorkflow/issues
-- 项目维护者: [联系信息]
+- 问题追踪: https://gitee.com/chengdu-flower-food/grid-workflow/issues
+- 项目维护: 内部开发团队
 
 ---
 

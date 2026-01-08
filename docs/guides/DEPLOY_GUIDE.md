@@ -141,24 +141,22 @@ SecretKey:  <你的SecretKey> (保密!)
 
 ## 4. 部署到 Vercel
 
-### 4.1 Fork 仓库
+### 4.1 关联仓库
 
-**方式一：从 Gitee Fork (国内推荐)**
-1. 访问 [GridWorkflow Gitee 仓库](https://gitee.com/chengdu-flower-food/grid-workflow)
-2. 点击右上角 **Fork**
-3. 选择你的账号，完成 Fork
+> ⚠️ 本项目为企业内部项目，请确保有仓库访问权限。
 
-**方式二：从 GitHub Fork**
-1. 访问 [GridWorkflow GitHub 仓库](https://github.com/XucroYuri/GridWorkflow)
-2. 点击右上角 **Fork**
-3. 选择你的账号，点击 **Create fork**
+**Gitee 仓库 (主)**
+- 仓库地址：https://gitee.com/chengdu-flower-food/grid-workflow
+
+**GitHub 仓库 (备份)**
+- 仓库地址：https://github.com/XucroYuri/GridWorkflow
 
 ### 4.2 导入到 Vercel
 
 1. 访问 [Vercel Dashboard](https://vercel.com/dashboard)
 2. 点击 **Add New** → **Project**
 3. 选择 **Import Git Repository**
-4. 找到刚 Fork 的 `GridWorkflow` 仓库，点击 **Import**
+4. 关联企业 Git 账号，选择 `GridWorkflow` 仓库，点击 **Import**
 
 ### 4.3 配置构建设置
 
