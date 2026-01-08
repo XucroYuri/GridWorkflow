@@ -13,6 +13,8 @@
 | **GitHub** | https://github.com/huachi-design/GridWorkflow | **次级备份** | 公开备份仓库，Vercel 等平台快速部署 |
 | **GitHub** | https://github.com/XucroYuri/GridWorkflow | **安全隐形备份** | 隐形备份仓库，不在文档中体现，但每次提交自动同步 |
 
+> ⚠️ **注意**: 如果 `huachi-design/GridWorkflow` 仓库尚未创建，请先在 GitHub 上创建该仓库，然后按照下方"配置步骤"添加远程仓库。
+
 ---
 
 ## 🔧 远程仓库配置
@@ -38,6 +40,34 @@ git remote -v
 | `github-huachi` | GitHub (huachi-design) | GitHub (huachi-design) | 次级备份仓库 |
 | `github-backup` | GitHub (XucroYuri) | GitHub (XucroYuri) | 安全隐形备份（不在文档中体现） |
 | `all` | Gitee | Gitee + GitHub (huachi) + GitHub (backup) | 同步推送到三个仓库 |
+
+---
+
+## ⚙️ 配置步骤
+
+### 1. 创建 GitHub 仓库（如未创建）
+
+1. 访问 https://github.com/huachi-design
+2. 点击 "New repository"
+3. 仓库名称: `GridWorkflow`
+4. 设置为 Private（推荐）或 Public
+5. **不要**初始化 README、.gitignore 或 license（仓库已存在）
+
+### 2. 添加远程仓库
+
+```bash
+# 添加 GitHub 次级备份
+git remote add github-huachi https://github.com/huachi-design/GridWorkflow.git
+
+# 添加 GitHub 隐形备份（如未添加）
+git remote add github-backup https://github.com/XucroYuri/GridWorkflow.git
+
+# 配置聚合推送（推送到三个仓库）
+git remote add all https://gitee.com/chengdu-flower-food/grid-workflow.git
+git remote set-url --add --push all https://gitee.com/chengdu-flower-food/grid-workflow.git
+git remote set-url --add --push all https://github.com/huachi-design/GridWorkflow.git
+git remote set-url --add --push all https://github.com/XucroYuri/GridWorkflow.git
+```
 
 ---
 
@@ -73,8 +103,11 @@ git push all main
 # 从 Gitee 拉取 (默认，国内更快)
 git pull origin main
 
-# 从 GitHub 拉取
-git pull github main
+# 从 GitHub 次级备份拉取
+git pull github-huachi main
+
+# 从 GitHub 隐形备份拉取（通常不需要）
+git pull github-backup main
 ```
 
 ---
@@ -97,14 +130,11 @@ cd GridWorkflow
 
 ---
 
-## ⚙️ 为已克隆仓库配置双远程
+## ⚙️ 为已克隆仓库配置多远程
 
-如果你已经克隆了仓库，可以添加另一个远程：
+如果你已经克隆了仓库，可以添加其他远程：
 
 ```bash
-# 如果从 GitHub 克隆，添加 Gitee
-git remote add gitee https://gitee.com/chengdu-flower-food/grid-workflow.git
-
 # 如果从 Gitee 克隆，添加 GitHub 次级备份
 git remote add github-huachi https://github.com/huachi-design/GridWorkflow.git
 
@@ -155,8 +185,11 @@ A: Vercel 部署使用 GitHub 次级备份仓库（https://github.com/huachi-des
 
 A: GitHub (XucroYuri/GridWorkflow) 作为安全隐形备份，不在文档中公开提及，但每次提交都会自动同步推送，提供额外的安全保障。
 
+### Q: 如果 huachi-design/GridWorkflow 仓库不存在怎么办？
+
+A: 请先在 GitHub 上创建该仓库，然后按照"配置步骤"添加远程仓库。在仓库创建之前，可以暂时只推送到 Gitee 和 github-backup。
+
 ---
 
 **文档维护者**: AI Architect  
 **最后更新**: 2026-01-08
-
