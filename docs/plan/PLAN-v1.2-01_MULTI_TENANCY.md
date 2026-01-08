@@ -244,10 +244,16 @@ class QuotaService:
 
 ```python
 # backend/app/core/quota_middleware.py
-from fastapi import Request, HTTPException
+import logging
+from fastapi import Request
+from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.services.quota_service import QuotaService
+from app.schemas.response import error_response
+
+
+logger = logging.getLogger("quota")
 
 
 class QuotaMiddleware(BaseHTTPMiddleware):
@@ -277,13 +283,17 @@ class QuotaMiddleware(BaseHTTPMiddleware):
             status = await quota_service.check_api_quota()
             
             if not status.allowed:
-                raise HTTPException(
+                # 使用 JSONResponse + error_response 保持统一响应格式
+                return JSONResponse(
                     status_code=429,
-                    detail={
-                        'code': 'QUOTA_EXCEEDED',
-                        'message': status.message,
-                        'current': status.current,
-                        'limit': status.limit,
+                    content=error_response(
+                        code='QUOTA_EXCEEDED',
+                        message=f"{status.message} (当前: {status.current}/{status.limit})"
+                    ),
+                    headers={
+                        'X-Quota-Current': str(status.current),
+                        'X-Quota-Limit': str(status.limit),
+                        'Retry-After': '3600',  # 建议 1 小时后重试
                     }
                 )
         

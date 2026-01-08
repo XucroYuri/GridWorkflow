@@ -431,14 +431,26 @@ async def generate_video(
 
 ```typescript
 // frontend/src/hooks/useTaskSubscription.ts
-import { useEffect, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
 import type { VideoTask } from '../services/videoService';
 
+/**
+ * 订阅视频任务状态变化
+ * 使用 useRef 存储回调避免不必要的重新订阅
+ */
 export function useTaskSubscription(
   taskId: string | null,
   onUpdate: (task: VideoTask) => void
 ) {
+  // 使用 ref 存储最新的回调，避免回调变化导致重复订阅
+  const onUpdateRef = useRef(onUpdate);
+  
+  // 保持 ref 始终指向最新的回调
+  useEffect(() => {
+    onUpdateRef.current = onUpdate;
+  }, [onUpdate]);
+
   useEffect(() => {
     if (!taskId) return;
     
@@ -455,7 +467,8 @@ export function useTaskSubscription(
         },
         (payload) => {
           const task = payload.new as VideoTask;
-          onUpdate(task);
+          // 通过 ref 调用回调，确保使用最新的回调函数
+          onUpdateRef.current(task);
         }
       )
       .subscribe();
@@ -463,13 +476,17 @@ export function useTaskSubscription(
     return () => {
       subscription.unsubscribe();
     };
-  }, [taskId, onUpdate]);
+  }, [taskId]); // 只依赖 taskId，回调通过 ref 访问
 }
 
 // 使用示例
 function VideoStudio() {
   const [currentTask, setCurrentTask] = useState<VideoTask | null>(null);
-  
+  const { toast } = useToast(); // 假设从 context 获取
+
+  // useCallback 正确声明所有依赖
+  // 注意：由于 useTaskSubscription 使用 useRef 存储回调，
+  // 即使 toast 变化导致此回调重建，也不会触发重复订阅
   const handleTaskUpdate = useCallback((task: VideoTask) => {
     setCurrentTask(task);
     
@@ -478,7 +495,7 @@ function VideoStudio() {
     } else if (task.status === 'failed') {
       toast.error(`生成失败: ${task.error_message}`);
     }
-  }, []);
+  }, [toast]); // ✅ 正确包含 toast 依赖
   
   useTaskSubscription(currentTask?.task_id ?? null, handleTaskUpdate);
   
