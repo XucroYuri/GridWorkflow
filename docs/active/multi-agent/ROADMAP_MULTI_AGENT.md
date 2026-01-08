@@ -21,9 +21,12 @@
 
 ## 1. 团队与角色
 
-- **Codex Team（后端 Agent）**：实现 `backend/**`，负责数据契约、安全、代理、存储、鉴权、任务系统。
-- **Gemini Team（前端 Agent）**：实现 `frontend/**`，负责 Light Theme（Google 风格）UI、交互、状态机、apiClient。
-- **Joint Agent（集成 Agent）**：只做“联调与验收”类变更，禁止引入新需求；修复必须回写到对应 WP/PLAN 的验收条目。
+| 角色 | LLM | 核心特点 | 职责范围 |
+|------|-----|----------|----------|
+| **Expert (Claude)** | Claude | 🔍 **严谨严厉的代码专家** | 代码审核、方案评审、安全审阅、CI配置、最终验收、架构决策 |
+| **Backend (Codex)** | Codex | ⚡ **后端架构专业高效** | 实现 `backend/**`，数据契约、安全、代理、存储、鉴权、任务系统 |
+| **Frontend (Gemini)** | Gemini | 🎨 **前端审美且熟练** | 实现 `frontend/**`，Light Theme UI、交互、状态机、apiClient |
+| **Joint Agent** | Codex + Gemini | 🔗 联调集成 | 只做联调与验收类变更，禁止引入新需求；修复必须回写到对应 PLAN 的验收条目 |
 
 ---
 

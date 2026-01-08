@@ -10,12 +10,12 @@ from app.services.ai_service import APIError, analyze_text, generate_image
 router = APIRouter(prefix="/api/v1/ai", dependencies=[Depends(require_user)])
 
 
-@router.post("/analyze")
+@router.post("/analyze", response_model=None)
 async def analyze(
     payload: AnalyzeRequest,
     request: Request,
     settings: Settings = Depends(get_settings),
-) -> JSONResponse | dict:
+):
     model = payload.model or settings.default_text_model
     request.state.step = "ai.analyze"
     request.state.model = model
@@ -30,12 +30,12 @@ async def analyze(
         )
 
 
-@router.post("/generate-image")
+@router.post("/generate-image", response_model=None)
 async def generate_image_proxy(
     payload: GenerateImageRequest,
     request: Request,
     settings: Settings = Depends(get_settings),
-) -> JSONResponse | dict:
+):
     model = payload.model or settings.default_image_model
     request.state.step = "ai.generate_image"
     request.state.model = model
